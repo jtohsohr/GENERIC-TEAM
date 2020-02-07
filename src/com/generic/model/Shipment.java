@@ -1,21 +1,21 @@
 package com.generic.model;
 
 /**
- * @author Justin Caughlan, Seyi Ola
- * This models a Shipment
+ * @author Justin Caughlan, Seyi Ola This models a Shipment
  */
 
 public class Shipment {
-	private String shipmentID; //shipment identification number
-	private FreightType freight; //freight type
+	private String shipmentID; // shipment identification number
+	private FreightType freight; // freight type
 	private double weight; // shipment weight
-	private long receiptDate; //Need to figure out the date format
-	
+	private long receiptDate; // Need to figure out the date format
+
 	/**
 	 * Constructs a new Shipment
-	 * @param shipmentID shipment identification number
-	 * @param freight freight type
-	 * @param weight shipment weight
+	 * 
+	 * @param shipmentID  shipment identification number
+	 * @param freight     freight type
+	 * @param weight      shipment weight
 	 * @param receiptDate shipment receipt
 	 */
 	public Shipment(String shipmentID, FreightType freight, double weight, long receiptDate) {
@@ -25,17 +25,14 @@ public class Shipment {
 		this.receiptDate = receiptDate;
 	}
 
-	
 	public String getShipmentID() {
 		return shipmentID;
 	}
 
-	
 	public void setShipmentID(String shipmentID) {
 		this.shipmentID = shipmentID;
 	}
 
-	
 	public FreightType getFreight() {
 		return freight;
 	}
@@ -59,5 +56,5 @@ public class Shipment {
 	public void setReceiptDate(long receiptDate) {
 		this.receiptDate = receiptDate;
 	}
-	
+
 }
