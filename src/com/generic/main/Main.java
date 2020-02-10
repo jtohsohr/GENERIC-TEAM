@@ -28,6 +28,6 @@ public class Main {
 				input.next();
 			}
 		} while (!(isNumber));
-		System.out.println("you entered the number " + number);
+		System.out.println("you entered  " + number + "number");
 	}
 }
