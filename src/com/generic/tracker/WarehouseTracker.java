@@ -63,14 +63,39 @@ public final class WarehouseTracker {
 		}
 		return false;
 	}
+<<<<<<< HEAD
 
 	public boolean addShipment(int warehouseID, Shipment mShipment) {
+=======
+	
+	/**
+	 * Adds a shipment to a warehouse, if the warehouseID
+	 * does not exist, it returns -1, if
+	 * the shipment could not be added because it's 
+	 * freight receipt has ended, it returns 0,
+	 * and if the shipment was successfully added, it 
+	 * returns 1.
+	 * @param warehouseID the warehouseID
+	 * @param shipment the shipment to add to this warehouse
+	 * @return -1 if ID does not exist
+	 * 		  , 0 if freight receipt is disabled,
+	 * 		  , 1 if successfully added.
+	 * 			
+	 */
+	public int addShipment(int warehouseID, Shipment mShipment)
+	{
+>>>>>>> f7b33e42a3cbc268495643d0d393f6de2da4554c
 		Warehouse theWarehouse = warehouses.get(warehouseID);
 		if (theWarehouse != null && theWarehouse.receivingFreight()) {
 			theWarehouse.addShipment(mShipment);
 			return true;
 		}
+<<<<<<< HEAD
 		return false;
+=======
+		
+		return logCode;
+>>>>>>> f7b33e42a3cbc268495643d0d393f6de2da4554c
 	}
 
 	public boolean addShipment(Warehouse theWarehouse, Shipment mShipment) {
@@ -89,9 +114,16 @@ public final class WarehouseTracker {
 			theWarehouse.enableFreight();
 			return true;
 		}
+<<<<<<< HEAD
 		return false;
 	}
 
+=======
+		
+		return logCode;
+	 }
+	 
+>>>>>>> f7b33e42a3cbc268495643d0d393f6de2da4554c
 	/**
 	 * Disables freight receipt in a warehouse
 	 * 

@@ -6,6 +6,7 @@ import java.util.Date;
 import org.json.simple.JSONObject;
 
 /**
+<<<<<<< HEAD
  * @author GENERIC TEAM
  * This models a Shipment
  */
@@ -16,14 +17,23 @@ public class Shipment {
 
 	private String shipmentID; //shipment identification number
 	private FreightType freight; //freight type
+=======
+ * @author Justin Caughlan, Seyi Ola This models a Shipment
+ */
+
+public class Shipment {
+	private String shipmentID; // shipment identification number
+	private FreightType freight; // freight type
+>>>>>>> f7b33e42a3cbc268495643d0d393f6de2da4554c
 	private double weight; // shipment weight
-	private long receiptDate; //Need to figure out the date format
-	
+	private long receiptDate; // Need to figure out the date format
+
 	/**
 	 * Constructs a new Shipment
-	 * @param shipmentID shipment identification number
-	 * @param freight freight type
-	 * @param weight shipment weight
+	 * 
+	 * @param shipmentID  shipment identification number
+	 * @param freight     freight type
+	 * @param weight      shipment weight
 	 * @param receiptDate shipment receipt
 	 */
 	private Shipment(String shipmentID, FreightType freight, double weight, long receiptDate) {
@@ -32,11 +42,22 @@ public class Shipment {
 		this.weight = weight;
 		this.receiptDate = receiptDate;
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> f7b33e42a3cbc268495643d0d393f6de2da4554c
 	public String getShipmentID() {
 		return shipmentID;
 	}
 
+<<<<<<< HEAD
+=======
+	public void setShipmentID(String shipmentID) {
+		this.shipmentID = shipmentID;
+	}
+
+>>>>>>> f7b33e42a3cbc268495643d0d393f6de2da4554c
 	public FreightType getFreight() {
 		return freight;
 	}
@@ -63,6 +84,7 @@ public class Shipment {
 	public String toString() {
 		return String.format(SHIPMENT_DETAIl_FORMAT_STRING, shipmentID, weight, freight.toString().toLowerCase(), milliToDate(receiptDate));
 	}
+<<<<<<< HEAD
 	
 	
 	
@@ -110,4 +132,7 @@ public class Shipment {
 			return new Shipment(shipmentID, freight, weight, receiptDate);
 		}
 	}
+=======
+
+>>>>>>> f7b33e42a3cbc268495643d0d393f6de2da4554c
 }

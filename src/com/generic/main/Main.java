@@ -1,10 +1,13 @@
 package com.generic.main;
 
+<<<<<<< HEAD
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+=======
+>>>>>>> f7b33e42a3cbc268495643d0d393f6de2da4554c
 import java.util.Scanner;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -46,6 +49,7 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
+<<<<<<< HEAD
 		Main app = new Main();
 
 		loop: while (true) {
@@ -289,5 +293,32 @@ public class Main {
 		warehouseTracker.addWarehouse(warehouse);
 		// add the shipment to the warehouse
 		warehouseTracker.addShipment(warehouseID, shipment);
+=======
+
+		/*
+		 * Scanner scanner = new Scanner(System.in);
+		 * System.out.println("Import (I) or Export (E) Warehouse Contents"); String
+		 * response = scanner.nextLine(); if(response.equalsIgnoreCase("I")) { //Call
+		 * JSON Parser }
+		 */
+
+		Scanner input = new Scanner(System.in);
+		int number = 0;
+		boolean isNumber;
+
+		System.out.println("Enter a whole number please");
+		do {
+
+			if (input.hasNextInt()) {
+				number = input.nextInt();
+				isNumber = true;
+			} else {
+				System.out.println("I do not understand you");
+				isNumber = false;
+				input.next();
+			}
+		} while (!(isNumber));
+		System.out.println("you entered  " + number + "number");
+>>>>>>> f7b33e42a3cbc268495643d0d393f6de2da4554c
 	}
 }
