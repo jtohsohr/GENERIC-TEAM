@@ -41,7 +41,7 @@ ICS 372 GROUP PROJECTS
 * GUI will be used. I believe we all have Java 8. Java FX8 will be used in building the GUI
 * We will be adding XML parsing to the software
 * We will be adding a name attribute to Warehouse class
-* Although we already have good exception handling mechanisms in our software, we would need rigorous testing of those mechanisms 
+* Although we already have good exception handling mechanisms in our software, we will need rigorous testing of those mechanisms 
   for this iteration, especially for I/0 operations
 * Coding conventions wiki/document will be created
 * JUnit testing will be incorporated into the software
