@@ -11,6 +11,10 @@ import org.json.simple.JSONObject;
 import com.generic.model.PersistentJson;
 import com.generic.model.Shipment;
 import com.generic.model.Warehouse;
+import com.sun.javafx.collections.ObservableMapWrapper;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 /**
  * This class will be responsible for tracking
  * a collection of warehouses and the shipments
@@ -179,6 +183,18 @@ public class WarehouseTracker extends PersistentJson {
 		}
 		System.out.println(theWarehouse.toString());
 	}
+	
+	/**
+	 * Gets the list of warehouses, needed by
+	 * GUI to populate the TableView
+	 * @return ObservableList of warehouses
+	 */
+	public ObservableList<Warehouse> getWarehousesList(){
+		List<Warehouse> warehousesAsList = new ArrayList<Warehouse>(warehouses.values());
+		return FXCollections.observableList(warehousesAsList);
+	}
+	
+	
 	
 	/**
 	 * Prints all available warehouses
