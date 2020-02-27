@@ -6,10 +6,7 @@ import java.util.Scanner;
 
 import com.generic.util.Commands;
 import com.generic.util.CommandsException;
-import com.generic.view.WarehouseView;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
 
 /**
  * Entry Point
