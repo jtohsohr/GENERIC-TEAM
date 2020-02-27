@@ -2,9 +2,9 @@ package com.generic.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
 
 /**
  * This class creates a model of a Warehouse.
@@ -16,6 +16,10 @@ public class Warehouse extends PersistentJson {
 	
 	private static final String WAREHOUSE_DETAIL_FORMAT_STRING = "| WAREHOUSEID: %s| FREIGHT RECEIPT STATUS: %s| SHIPMENT AVALIABLE: %d|";
 
+	// TODO: Add warehouseName attribute to class
+	// TODO: Create a getter method(getWarehouseName) for warehouseName attribute
+	// TODO: Create another constructor that can accept a name and warehouseID 
+	//       attribute(Warehouse(String warehouseName, String warehouseID)
 	private boolean freightReceiptEnabled; // freight receipt
 	private List<Shipment> shipments; // List of shipments
 
@@ -48,14 +52,16 @@ public class Warehouse extends PersistentJson {
 	 * Gets the freightReceipt Status
 	 * @return freightReceipt
 	 */
-	public boolean receivingFreight() {
+	public boolean getFreightReceiptEnabled() {
 		return freightReceiptEnabled;
 	}
+	
 	
 	public List<Shipment> getShipmentList() {
 		// how to return a const (immutable) ?
 		return shipments;
 	}
+	
 	
 	/**
 	 * Gets the warehouseID
@@ -64,6 +70,7 @@ public class Warehouse extends PersistentJson {
 	public String getWarehouseID() {
 		return id;
 	}
+	
 	
 	/**
 	 * Adds a shipment to the warehouse if freightReceipt
