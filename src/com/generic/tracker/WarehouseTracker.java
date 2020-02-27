@@ -11,8 +11,6 @@ import org.json.simple.JSONObject;
 import com.generic.model.PersistentJson;
 import com.generic.model.Shipment;
 import com.generic.model.Warehouse;
-import com.sun.javafx.collections.ObservableMapWrapper;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 /**
@@ -58,7 +56,7 @@ public class WarehouseTracker extends PersistentJson {
 	 */
 	
 	public boolean freightIsEnabled(String warehouseID) {
-		return warehouses.get(warehouseID).receivingFreight();
+		return warehouses.get(warehouseID).getFreightReceiptEnabled();
 	}
 	
 	
@@ -88,7 +86,7 @@ public class WarehouseTracker extends PersistentJson {
 	 */
 	public boolean addShipment(String warehouseID, Shipment mShipment) {
 		Warehouse theWarehouse = warehouses.get(warehouseID);
-		if (theWarehouse != null && theWarehouse.receivingFreight()) {
+		if (theWarehouse != null && theWarehouse.getFreightReceiptEnabled()) {
 			theWarehouse.addShipment(mShipment);
 			return true;
 		}
