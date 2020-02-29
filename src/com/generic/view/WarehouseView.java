@@ -1,39 +1,41 @@
 package com.generic.view;
 
-
-
-
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.util.List;
-import java.util.logging.Logger;
-
 import com.generic.model.FreightType;
 import com.generic.model.Shipment;
 import com.generic.model.Warehouse;
 import com.generic.tracker.WarehouseTracker;
-import com.sun.corba.se.impl.orbutil.graph.Node;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+/**
+ * This class handles everything
+ * concerning the User Interface
+ * @author GENERIC TEAM
+ *
+ */
 
 public class WarehouseView extends Application{
 
@@ -56,7 +58,6 @@ public class WarehouseView extends Application{
 	private TableView<Warehouse> warehouseTable;
 	private TableView<Shipment> shipmentTable;
 
-	private Button toogleFreightBtn;
 	private TextField wIDTextField, wNameTextField, wFreightStatus;
 		
 	
@@ -70,11 +71,10 @@ public class WarehouseView extends Application{
 		
 		Warehouse testWarehouse = new Warehouse("15566");
 		Shipment testShipment = new Shipment.Builder()
-							                .id("asad1")
-							                .type(FreightType.TRUCK)
-							                .weight(34.0)
-							                .date(10000021213L)
-							                .build();
+				.id("asad1").type(FreightType.TRUCK)
+				.weight(34.0)
+				.date(10000021213L)
+				.build();
 		
 		warehouseTracker.addWarehouse(testWarehouse);
 		warehouseTracker.addShipment(testWarehouse, testShipment);
@@ -84,9 +84,9 @@ public class WarehouseView extends Application{
 		// Set the Scene
 		primaryStage.setMinWidth(SCREEN_WIDTH / 200);
 		primaryStage.setMinHeight(SCREEN_HEIGHT / 200 );
-		primaryStage.setScene(shipmentScene);
+		//primaryStage.setScene(shipmentScene);
 		primaryStage.setResizable(false);
-		//primaryStage.setScene(createWarehouseTable());
+		primaryStage.setScene(createWarehouseTable());
 		primaryStage.setTitle("G.T TRACKER");
 		primaryStage.show();
 		
@@ -94,15 +94,28 @@ public class WarehouseView extends Application{
 		
 	}
 	
-	
+	@SuppressWarnings("unchecked")
 	public Scene createWarehouseTable() {
 		// Create Table
 		warehouseTable = new TableView<Warehouse>();
 		warehouseTable.setItems(warehouseTracker.getWarehousesList());
-		Logger.getAnonymousLogger().info(warehouseTracker.getWarehousesList().toString());
 		warehouseTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		
+		// Navigate into the shipmentScene for clicked warehouse
+		warehouseTable.setOnMousePressed(new EventHandler<MouseEvent>() {
+		    @Override 
+		    public void handle(MouseEvent event) {
+		        if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+		        	Warehouse selectedWarehouse = warehouseTable.getSelectionModel().getSelectedItem();
+		        	primaryStage.setScene(createShipmentTable(selectedWarehouse));
+		        }
+		    }
+		});
+		
+		// TODO: Create functionality to delete Warehouse		
+		// TODO: Create functionality to add a Warehouse
+		
 		// Create Table Columns
-
 		// Warehouse Name Column
 		TableColumn<Warehouse, String> wNameColumn = new TableColumn<>("Name");
 		wNameColumn.setMinWidth(400);
@@ -126,7 +139,6 @@ public class WarehouseView extends Application{
 		// Add Columns to TableView
 		warehouseTable.getColumns().addAll(wIDColumn, wNameColumn, wShipmentsSize, wFreightStatusColumn);
 
-		
 		// Create Table Header
 		Label tableHeadingLabel = new Label("Warehouse Inventory");
 		tableHeadingLabel.setFont(new Font("Arial", 20));
@@ -138,11 +150,18 @@ public class WarehouseView extends Application{
 
 		// Top pane contents
 		Menu fileMenu = new Menu("File");
-		Menu importMenuItem = new Menu("Import");
-		Menu exportMenuItem = new Menu("Export");
-
-		fileMenu.getItems().addAll(importMenuItem, exportMenuItem);
-
+		Menu importMenu = new Menu("Import");
+		Menu exportMenu = new Menu("Export");
+		MenuItem jsonImportOption = new MenuItem(".json");
+		MenuItem jsonExportOption = new MenuItem(".json");
+		MenuItem xmlOption = new MenuItem(".xml");
+		
+	
+		importMenu.getItems().addAll(jsonImportOption, xmlOption);
+		exportMenu.getItems().addAll(jsonExportOption); // We were required to design for xml imports, not exports
+		
+		fileMenu.getItems().addAll(importMenu, exportMenu);
+	
 		MenuBar menuBar = new MenuBar(fileMenu);
 
 		HBox topPane = new HBox(10);
@@ -188,10 +207,13 @@ public class WarehouseView extends Application{
 		return mWarehouseScene;
 	}
 	
-	
+	@SuppressWarnings("unchecked")
 	public Scene createShipmentTable(Warehouse selectedWarehouse) {
 		
 		ObservableList<Shipment> shipmentList = FXCollections.observableArrayList(selectedWarehouse.getShipmentList());
+		
+		// TODO: Create functionality to delete Shipment		
+		// TODO: Create functionality to add a Shipment
 		
 		// Create Table
 		shipmentTable = new TableView<Shipment>();
@@ -229,16 +251,18 @@ public class WarehouseView extends Application{
 		// Add table to center pane
 		VBox centerPane = new VBox(10);
 		centerPane.setPadding(new Insets(10));
-		centerPane.getChildren().addAll(tableHeadingLabel, shipmentTable);
+		centerPane.getChildren().addAll(shipmentTable);
 
 		
 		// Top pane contents
 		Button backButton = new Button("Warehouse Inventory");
-		backButton.setOnAction(e -> switchScene());
 		
-		HBox topPane = new HBox(10);
+		// Navigate to warehouse when Button is pressed
+		backButton.setOnAction(e -> { primaryStage.setScene(warehouseScene); });
+		
+		VBox topPane = new VBox(10);
 		topPane.setPadding(new Insets(10));
-		topPane.getChildren().addAll(backButton);
+		topPane.getChildren().addAll(tableHeadingLabel, backButton);
 		
 
 		// Text Fields
@@ -271,24 +295,11 @@ public class WarehouseView extends Application{
 		borderPane.setCenter(centerPane);
 		borderPane.setBottom(bottomPane);
 		borderPane.setTop(topPane);
-
+		
 		Scene mShipmentScene = new Scene(borderPane);
 				
-
-		return mShipmentScene;
-		
+		return mShipmentScene;	
 	}
-	
-	
-	public void switchScene() {
-		if(primaryStage.getScene().equals(shipmentScene)) {
-			primaryStage.setScene(warehouseScene);
-		}else {
-			// TODO: Get the clicked warehouse on the table
-			//       pass to primaryStage.setScence(createShipmentTable(selectedWarehouse))
-		}
-	}
-	
 	
 	
 	

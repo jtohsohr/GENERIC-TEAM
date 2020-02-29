@@ -59,8 +59,6 @@ public class WarehouseTracker extends PersistentJson {
 		return warehouses.get(warehouseID).getFreightReceiptEnabled();
 	}
 	
-	
-	
 	/**
 	 * 
 	 * Adds a new warehouse to the warehouse collection.
@@ -77,7 +75,6 @@ public class WarehouseTracker extends PersistentJson {
 		return false;
 	}
 	
-	
 	/**
 	 * Add shipment to a warehouse using warehouseID
 	 * @param warehouseID warehouseID
@@ -93,8 +90,13 @@ public class WarehouseTracker extends PersistentJson {
 		return false;
 	}
 	
-	
-	public Warehouse get(String warehouseID) {
+
+	/**
+	 * Gets a warehouseObject
+	 * @param warehouseID
+	 * @return
+	 */
+	public Warehouse getWarehouse(String warehouseID) {
 		return warehouses.get(warehouseID);
 	}
 	

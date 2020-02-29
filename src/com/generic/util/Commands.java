@@ -65,7 +65,7 @@ public class Commands {
 					if (!warehouseTracker.warehouseExists(mWarehouseID)) {
 						return;
 					}
-					PersistentJson warehouse = warehouseTracker.get(mWarehouseID);
+					PersistentJson warehouse = warehouseTracker.getWarehouse(mWarehouseID);
 					warehouse.save(warehouse.getId()+".json");
 					
 					System.out.println("Sucessfully exported warehouse");
