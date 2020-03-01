@@ -1,13 +1,10 @@
 package com.generic.model;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.List;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
 
 /**
  * This class creates a model of a Warehouse.
@@ -15,11 +12,14 @@ import org.json.simple.JSONObject;
  * @author GENERIC TEAM
  */
 
-public class Warehouse {
+public class Warehouse extends PersistentJson {
 	
-	private static final String WAREHOUSE_DETAIL_FORMAT_STRING = "| WAREHOUSEID: %d| FREIGHT RECEIPT STATUS: %s| SHIPMENT AVALIABLE: %d|";
-	
-	private int warehouseID; // warehouse ID
+	private static final String WAREHOUSE_DETAIL_FORMAT_STRING = "| WAREHOUSEID: %s| FREIGHT RECEIPT STATUS: %s| SHIPMENT AVALIABLE: %d|";
+
+	// TODO: Add warehouseName attribute to class
+	// TODO: Create a getter method(getWarehouseName) for warehouseName attribute
+	// TODO: Create another constructor that can accept a name and warehouseID 
+	//       attribute(Warehouse(String warehouseName, String warehouseID)
 	private boolean freightReceiptEnabled; // freight receipt
 	private List<Shipment> shipments; // List of shipments
 
@@ -28,9 +28,9 @@ public class Warehouse {
 	 * @param id warehouse identification number
 	 * @param receipt freightReceipt status
 	 */
-	public Warehouse(int warehouseID) {
+	public Warehouse(String warehouseID) {
 		this.shipments = new ArrayList<Shipment>();
-		this.warehouseID = warehouseID;
+		this.id = warehouseID;
 		this.freightReceiptEnabled = true;
 	}
 	
@@ -52,17 +52,25 @@ public class Warehouse {
 	 * Gets the freightReceipt Status
 	 * @return freightReceipt
 	 */
-	public boolean receivingFreight() {
+	public boolean getFreightReceiptEnabled() {
 		return freightReceiptEnabled;
 	}
+	
+	
+	public List<Shipment> getShipmentList() {
+		// how to return a const (immutable) ?
+		return shipments;
+	}
+	
 	
 	/**
 	 * Gets the warehouseID
 	 * @return warehouseID
 	 */
-	public int getWarehouseID() {
-		return warehouseID;
+	public String getWarehouseID() {
+		return id;
 	}
+	
 	
 	/**
 	 * Adds a shipment to the warehouse if freightReceipt
@@ -89,7 +97,7 @@ public class Warehouse {
 	
 	@Override
 	public String toString() {
-		String headerString = String.format(WAREHOUSE_DETAIL_FORMAT_STRING, warehouseID, (freightReceiptEnabled) ? "ENABLED" : "ENDED", getShipmentSize());
+		String headerString = String.format(WAREHOUSE_DETAIL_FORMAT_STRING, id, (freightReceiptEnabled) ? "ENABLED" : "ENDED", getShipmentSize());
 		String headerFormat = new String(new char[headerString.length()]).replace("\0", "-");
 		StringBuilder warehouseInfo = new StringBuilder()
 				.append(headerFormat).append("\n")
@@ -121,38 +129,19 @@ public class Warehouse {
 		return (shipments.size() == 0);
 	}
 	
-	/**
-	 * Exports a warehouse object to a JSON 
-	 * file.
-	 * 
-	 * A NICE THING TO ADD WILL BE TO ALLOW
-	 * USER SPECIFY A DESTINATION PATH FOR FILE.
-	 */
+	@Override
 	@SuppressWarnings("unchecked")
-	public void exportToJSON() {
-		String filePath = "output/warehouse_"+ warehouseID + ".json";
-		File file = new File(filePath);
-
+	public JSONObject toJSON() {
 		JSONObject warehouseInfo = new JSONObject();
-		JSONArray warehouseContents = new JSONArray();
+		JSONArray shipmentList = new JSONArray();
 		JSONObject shipmentContents;
 
 		for (Shipment shipment : shipments) {
 			shipmentContents = shipment.toJSON();
-			warehouseContents.add(shipmentContents);
+			shipmentList.add(shipmentContents);
 		}
-		warehouseInfo.put("Warehouse_" + warehouseID, warehouseContents);
+		warehouseInfo.put("Warehouse_" + id, shipmentList);
+		return warehouseInfo;
 		
-		// Check and create directory
-		if (!file.getParentFile().exists())
-			file.getParentFile().mkdirs();
-
-		//Write JSON file
-		try (FileWriter fw = new FileWriter(filePath)) {
-			PrintWriter printWriter = new PrintWriter(fw);
-			printWriter.println(warehouseInfo.toJSONString());
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
 	}
 }
