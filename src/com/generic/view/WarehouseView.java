@@ -12,7 +12,6 @@ import com.generic.model.FreightType;
 import com.generic.model.Shipment;
 import com.generic.model.Warehouse;
 import com.generic.tracker.WarehouseTracker;
-import com.sun.corba.se.impl.orbutil.graph.Node;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
