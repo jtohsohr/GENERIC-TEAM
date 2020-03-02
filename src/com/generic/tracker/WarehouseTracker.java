@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
 import com.generic.model.PersistentJson;
 import com.generic.model.Shipment;
 import com.generic.model.Warehouse;
@@ -45,7 +43,6 @@ public class WarehouseTracker extends PersistentJson {
 		}
 		return warehouseTracker;
 	}
-	
 		
 	/**
 	 * Create a method that checks if a 
@@ -90,14 +87,46 @@ public class WarehouseTracker extends PersistentJson {
 		return false;
 	}
 	
-
 	/**
-	 * Gets a warehouseObject
+	 * Gets a Warehouse Object
 	 * @param warehouseID
-	 * @return
+	 * @return warehouse object
 	 */
 	public Warehouse getWarehouse(String warehouseID) {
 		return warehouses.get(warehouseID);
+	}
+	
+	
+	/**
+	 * Removes all warehouses in a given list 
+	 * @param warehousesItems list of warehouses to delete
+	 */
+	public void removeAllWarehouses(List<Warehouse> warehousesItems) {
+		for (Warehouse warehouse : warehousesItems) { removeWarehouse(warehouse); }
+	}
+	
+	/**
+	 * Removes a Warehouse from the Tracker
+	 * @param warehouse warehouse object to remove
+	 * @return true if remove was successful, false if not
+	 */
+	public boolean removeWarehouse(Warehouse warehouse) {
+		return warehouses.remove(warehouse.getId(), warehouse);
+	}
+	
+	
+	public void removeAllShipments(String warehouseID, List<Shipment> shipmentItems) {
+		for (Shipment shipment : shipmentItems) { removeShipment(warehouseID, shipment); }
+	}
+	
+	/**
+	 * Removes a shipment from specified Warehouse
+	 * @param warehouseID 
+	 * @param shipment Shipment to remove
+	 * @return true if remove was successful, false if not
+	 */
+	public boolean removeShipment(String warehouseID, Shipment shipment) {
+		return getWarehouse(warehouseID).getShipmentList().remove(shipment);
 	}
 	
 	
@@ -193,7 +222,6 @@ public class WarehouseTracker extends PersistentJson {
 		List<Warehouse> warehousesAsList = new ArrayList<Warehouse>(warehouses.values());
 		return FXCollections.observableList(warehousesAsList);
 	}
-	
 	
 	
 	/**

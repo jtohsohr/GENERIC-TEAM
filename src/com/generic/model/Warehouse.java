@@ -60,7 +60,7 @@ public class Warehouse extends PersistentJson {
 		// how to return a const (immutable) ?
 		return shipments;
 	}
-	
+		
 	/**
 	 * Gets the warehouseID
 	 * @return warehouseID
