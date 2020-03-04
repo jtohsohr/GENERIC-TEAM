@@ -246,7 +246,7 @@ public class WarehouseView extends Application{
 
 		// Warehouse Shipments Size Column
 		TableColumn<Shipment, FreightType> sFreightTypeColumn = new TableColumn<>("Shipping Method");
-		sFreightTypeColumn.setMinWidth(400);
+		sFreightTypeColumn.setMinWidth(200);
 		sFreightTypeColumn.setCellValueFactory(new PropertyValueFactory<Shipment, FreightType>("Freight"));
 
 		// Warehouse Freight Status Column
@@ -256,14 +256,14 @@ public class WarehouseView extends Application{
 		
 		// Warehouse Freight Status Column
 		TableColumn<Shipment, String> sReceiptDateColumn = new TableColumn<Shipment, String>("Receipt Date");
-		sReceiptDateColumn.setMinWidth(200);
+		sReceiptDateColumn.setMinWidth(400);
 		sReceiptDateColumn.setCellValueFactory(new PropertyValueFactory<Shipment, String>("ReceiptDateString"));
 
 		// Add Columns to TableView
 		shipmentTable.getColumns().addAll(sIDColumn, sFreightTypeColumn, sWeightColumn, sReceiptDateColumn);
 
 		// Create Table Header
-		Label tableHeadingLabel = new Label("Shipment Inventory for Warehouse " + selectedWarehouse.getId());
+		Label tableHeadingLabel = new Label("Warehouse " + selectedWarehouse.getId());
 		tableHeadingLabel.setFont(new Font("Arial", 20));
 
 		// Add table to center pane
@@ -281,7 +281,6 @@ public class WarehouseView extends Application{
 		toggleFreight.setOnAction(e -> { toggleFreightClicked(selectedWarehouse); });
 		
 		HBox topPaneControls = new HBox(10);
-		topPaneControls.setPadding(new Insets(10));
 		topPaneControls.getChildren().addAll(backButton, toggleFreight);
 		
 		VBox topPane = new VBox(10);

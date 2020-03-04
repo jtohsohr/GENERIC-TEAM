@@ -65,7 +65,7 @@ public class Shipment extends PersistentJson {
 	
 	@Override
 	public String toString() {
-		return String.format(SHIPMENT_DETAIl_FORMAT_STRING, id, weight, freight.toString().toLowerCase(), milliToDate(receiptDate));
+		return String.format(SHIPMENT_DETAIl_FORMAT_STRING, id, weight, freight.toString().toLowerCase(), getReceiptDateString());
 	}
 
 	@Override
