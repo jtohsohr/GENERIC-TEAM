@@ -34,7 +34,6 @@ public class Warehouse extends PersistentJson {
 	
 	// TODO: Create another constructor that can accept a name and warehouseID 
 	//       attribute(Warehouse(String warehouseName, String warehouseID)
-	
 	public Warehouse(String warehouseName, String warehouseID) {
 		this(warehouseID);
 		this.warehouseName = warehouseName;
