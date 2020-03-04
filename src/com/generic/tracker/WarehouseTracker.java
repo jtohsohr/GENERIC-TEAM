@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
 import com.generic.model.PersistentJson;
 import com.generic.model.Shipment;
 import com.generic.model.Warehouse;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 /**
  * This class will be responsible for tracking
  * a collection of warehouses and the shipments
@@ -43,7 +43,6 @@ public class WarehouseTracker extends PersistentJson {
 		}
 		return warehouseTracker;
 	}
-	
 		
 	/**
 	 * Create a method that checks if a 
@@ -54,10 +53,8 @@ public class WarehouseTracker extends PersistentJson {
 	 */
 	
 	public boolean freightIsEnabled(String warehouseID) {
-		return warehouses.get(warehouseID).receivingFreight();
+		return warehouses.get(warehouseID).getFreightReceiptEnabled();
 	}
-	
-	
 	
 	/**
 	 * 
@@ -75,7 +72,6 @@ public class WarehouseTracker extends PersistentJson {
 		return false;
 	}
 	
-	
 	/**
 	 * Add shipment to a warehouse using warehouseID
 	 * @param warehouseID warehouseID
@@ -84,16 +80,53 @@ public class WarehouseTracker extends PersistentJson {
 	 */
 	public boolean addShipment(String warehouseID, Shipment mShipment) {
 		Warehouse theWarehouse = warehouses.get(warehouseID);
-		if (theWarehouse != null && theWarehouse.receivingFreight()) {
+		if (theWarehouse != null && theWarehouse.getFreightReceiptEnabled()) {
 			theWarehouse.addShipment(mShipment);
 			return true;
 		}
 		return false;
 	}
 	
-	
-	public Warehouse get(String warehouseID) {
+	/**
+	 * Gets a Warehouse Object
+	 * @param warehouseID
+	 * @return warehouse object
+	 */
+	public Warehouse getWarehouse(String warehouseID) {
 		return warehouses.get(warehouseID);
+	}
+	
+	
+	/**
+	 * Removes all warehouses in a given list 
+	 * @param warehousesItems list of warehouses to delete
+	 */
+	public void removeAllWarehouses(List<Warehouse> warehousesItems) {
+		for (Warehouse warehouse : warehousesItems) { removeWarehouse(warehouse); }
+	}
+	
+	/**
+	 * Removes a Warehouse from the Tracker
+	 * @param warehouse warehouse object to remove
+	 * @return true if remove was successful, false if not
+	 */
+	public boolean removeWarehouse(Warehouse warehouse) {
+		return warehouses.remove(warehouse.getId(), warehouse);
+	}
+	
+	
+	public void removeAllShipments(String warehouseID, List<Shipment> shipmentItems) {
+		for (Shipment shipment : shipmentItems) { removeShipment(warehouseID, shipment); }
+	}
+	
+	/**
+	 * Removes a shipment from specified Warehouse
+	 * @param warehouseID 
+	 * @param shipment Shipment to remove
+	 * @return true if remove was successful, false if not
+	 */
+	public boolean removeShipment(String warehouseID, Shipment shipment) {
+		return getWarehouse(warehouseID).getShipmentList().remove(shipment);
 	}
 	
 	
@@ -179,6 +212,17 @@ public class WarehouseTracker extends PersistentJson {
 		}
 		System.out.println(theWarehouse.toString());
 	}
+	
+	/**
+	 * Gets the list of warehouses, needed by
+	 * GUI to populate the TableView
+	 * @return ObservableList of warehouses
+	 */
+	public ObservableList<Warehouse> getWarehousesList(){
+		List<Warehouse> warehousesAsList = new ArrayList<Warehouse>(warehouses.values());
+		return FXCollections.observableList(warehousesAsList);
+	}
+	
 	
 	/**
 	 * Prints all available warehouses

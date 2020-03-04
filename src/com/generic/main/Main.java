@@ -7,6 +7,7 @@ import java.util.Scanner;
 import com.generic.util.Commands;
 import com.generic.util.CommandsException;
 
+
 /**
  * Entry Point
  * 
@@ -18,6 +19,7 @@ import com.generic.util.CommandsException;
 public class Main {
 
 	public static Commands cmd = Commands.getInstance();
+	
 
 	public static void welcome() {
 		System.out.println("Available commands:");
@@ -28,6 +30,9 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
+		
+		
+		/**
 		welcome();
 
 		@SuppressWarnings("resource")
@@ -56,5 +61,9 @@ public class Main {
 		in.close();
 		
 		System.out.println("Goodbye!");
+		
+		**/
 	} // End of Main
+
+
 }

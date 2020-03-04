@@ -10,7 +10,6 @@ import org.json.simple.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public abstract class PersistentJson implements IPersistentJson {
-	
 	protected String id;
 	
 	public abstract JSONObject toJSON();
