@@ -14,9 +14,9 @@ public class Shipment extends PersistentJson {
 
 	private static final String SHIPMENT_DETAIl_FORMAT_STRING = "Shipment_Id: %s\n  Weight: %.1f\n  Freight_Type: %s\n  Receipt_Date: %s";
 
-	private FreightType freight; //freight type
-	private double weight; // shipment weight
-	private long receiptDate; //Need to figure out the date format
+	private FreightType freight; // Freight type
+	private double weight; // Shipment weight
+	private long receiptDate; // Need to figure out the date format
 	
 	/**
 	 * Constructs a new Shipment
@@ -46,6 +46,10 @@ public class Shipment extends PersistentJson {
 
 	public long getReceiptDate() {
 		return receiptDate;
+	}
+	
+	public String getReceiptDateString() {
+		return milliToDate(receiptDate);
 	}
 	
 	/**
