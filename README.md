@@ -36,3 +36,4 @@ ICS 372 GROUP PROJECTS
 * https://www.geeksforgeeks.org/parse-json-java/
 # UNIT TESTING AAA FORMAT LINK
 * http://wiki.c2.com/?ArrangeActAssert
+# INFORMATION REGARDING SECOND ITERATION NOW IN DOCUMENTATION FOLDER
