@@ -17,9 +17,7 @@ public class Warehouse extends PersistentJson {
 	private static final String WAREHOUSE_DETAIL_FORMAT_STRING = "| WAREHOUSEID: %s| FREIGHT RECEIPT STATUS: %s| SHIPMENT AVALIABLE: %d|";
 
 	// TODO: Add warehouseName attribute to class
-	// TODO: Create a getter method(getWarehouseName) for warehouseName attribute
-	// TODO: Create another constructor that can accept a name and warehouseID 
-	//       attribute(Warehouse(String warehouseName, String warehouseID)
+	private String warehouseName;
 	private boolean freightReceiptEnabled; // freight receipt
 	private List<Shipment> shipments; // List of shipments
 
@@ -32,6 +30,13 @@ public class Warehouse extends PersistentJson {
 		this.shipments = new ArrayList<Shipment>();
 		this.id = warehouseID;
 		this.freightReceiptEnabled = true;
+	}
+	
+	// TODO: Create another constructor that can accept a name and warehouseID 
+	//       attribute(Warehouse(String warehouseName, String warehouseID)
+	public Warehouse(String warehouseName, String warehouseID) {
+		this(warehouseID);
+		this.warehouseName = warehouseName;
 	}
 	
 	/**
@@ -69,6 +74,15 @@ public class Warehouse extends PersistentJson {
 		return id;
 	}
 	
+	// TODO: Create a getter method(getWarehouseName) for warehouseName attribute
+	/**
+	 * Gets warehouse name
+	 * @return the warehouseName
+	 */
+	public String getWarehouseName() {
+		return warehouseName;
+	}
+
 	/**
 	 * Adds a shipment to the warehouse if freightReceipt
 	 * enabled, does not add if it isn't enabled
