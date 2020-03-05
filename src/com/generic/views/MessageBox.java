@@ -1,4 +1,4 @@
-package com.generic.view;
+package com.generic.views;
 
 import javafx.stage.*;
 import javafx.scene.*;

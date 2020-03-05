@@ -1,4 +1,4 @@
-package com.generic.model;
+package com.generic.models;
 
 import java.io.File;
 import java.io.FileWriter;

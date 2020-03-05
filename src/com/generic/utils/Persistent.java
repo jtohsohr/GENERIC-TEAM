@@ -1,4 +1,4 @@
-package com.generic.util;
+package com.generic.utils;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,9 +8,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.generic.model.FreightType;
-import com.generic.model.Shipment;
-import com.generic.model.Warehouse;
+import com.generic.models.FreightType;
+import com.generic.models.Shipment;
+import com.generic.models.Warehouse;
 import com.generic.tracker.WarehouseTracker;
 
 public class Persistent {

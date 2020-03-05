@@ -1,4 +1,4 @@
-package com.generic.util;
+package com.generic.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,9 +11,9 @@ import java.util.Scanner;
 
 import org.json.simple.parser.ParseException;
 
-import com.generic.model.FreightType;
-import com.generic.model.PersistentJson;
-import com.generic.model.Shipment;
+import com.generic.models.FreightType;
+import com.generic.models.PersistentJson;
+import com.generic.models.Shipment;
 import com.generic.tracker.WarehouseTracker;
 
 public class Commands {

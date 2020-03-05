@@ -1,4 +1,4 @@
-package com.generic.model;
+package com.generic.models;
 
 /**
  * Enum for FreightType

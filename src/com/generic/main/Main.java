@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import com.generic.util.Commands;
-import com.generic.util.CommandsException;
+import com.generic.utils.Commands;
+import com.generic.utils.CommandsException;
 
 
 /**

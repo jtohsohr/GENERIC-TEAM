@@ -1,4 +1,4 @@
-package com.generic.model;
+package com.generic.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +32,11 @@ public class Warehouse extends PersistentJson {
 		this.freightReceiptEnabled = true;
 	}
 	
-	// TODO: Create another constructor that can accept a name and warehouseID 
-	//       attribute(Warehouse(String warehouseName, String warehouseID)
+	/**
+	 * This constructor creates 
+	 * @param warehouseName
+	 * @param warehouseID
+	 */
 	public Warehouse(String warehouseName, String warehouseID) {
 		this(warehouseID);
 		this.warehouseName = warehouseName;

@@ -5,12 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import com.generic.model.Warehouse;
+import com.generic.models.FreightType;
+import com.generic.models.Shipment;
+import com.generic.models.Warehouse;
 import com.generic.tracker.WarehouseTracker;
-
-
-import com.generic.model.FreightType;
-import com.generic.model.Shipment;
 
 
 /**

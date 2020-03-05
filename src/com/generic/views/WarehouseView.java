@@ -1,10 +1,13 @@
-package com.generic.view;
+package com.generic.views;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import com.generic.model.FreightType;
-import com.generic.model.Shipment;
-import com.generic.model.Warehouse;
+
+import com.fasterxml.jackson.annotation.Nulls;
+import com.generic.models.FreightType;
+import com.generic.models.Shipment;
+import com.generic.models.Warehouse;
+import com.generic.models.WeightUnit;
 import com.generic.tracker.WarehouseTracker;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -56,7 +59,7 @@ public class WarehouseView extends Application{
 	private TableView<Warehouse> warehouseTable;
 	private TableView<Shipment> shipmentTable;
 
-	private TextField wIDTextField, wNameTextField, wFreightStatus, sIDTextField, sMethodTextField, sWeightTextField, sReceiptDateTextField;
+	private TextField wIDTextField, wNameTextField, wFreightStatus, sIDTextField, sMethodTextField, sWeightTextField, sReceiptDateTextField, sWeightUnitTextField;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -134,8 +137,8 @@ public class WarehouseView extends Application{
 		// Warehouse Name Column
 		TableColumn<Warehouse, String> wNameColumn = new TableColumn<>("Name");
 		wNameColumn.setMinWidth(400);
-
 		wNameColumn.setCellValueFactory(new PropertyValueFactory<Warehouse, String>("WarehouseName"));
+		
 		// Warehouse ID Column
 		TableColumn<Warehouse, String> wIDColumn = new TableColumn<>("ID");
 		wIDColumn.setMinWidth(100);
@@ -241,7 +244,7 @@ public class WarehouseView extends Application{
 		// Create Table Columns		
 		// Shipment ID Column
 		TableColumn<Shipment, String> sIDColumn = new TableColumn<>("ID");
-		sIDColumn.setMinWidth(100);
+		sIDColumn.setMinWidth(150);
 		sIDColumn.setCellValueFactory(new PropertyValueFactory<Shipment, String>("ShipmentID"));
 
 		// Warehouse Shipments Size Column
@@ -256,11 +259,16 @@ public class WarehouseView extends Application{
 		
 		// Warehouse Freight Status Column
 		TableColumn<Shipment, String> sReceiptDateColumn = new TableColumn<Shipment, String>("Receipt Date");
-		sReceiptDateColumn.setMinWidth(400);
+		sReceiptDateColumn.setMinWidth(250);
 		sReceiptDateColumn.setCellValueFactory(new PropertyValueFactory<Shipment, String>("ReceiptDateString"));
+		
+		// Warehouse Freight Status Column
+		TableColumn<Shipment, WeightUnit> sWeightUnitColumn = new TableColumn<Shipment, WeightUnit>("Weight Unit");
+		sWeightUnitColumn.setMinWidth(100);
+		sWeightUnitColumn.setCellValueFactory(new PropertyValueFactory<Shipment, WeightUnit>("WeightUnit"));
 
 		// Add Columns to TableView
-		shipmentTable.getColumns().addAll(sIDColumn, sFreightTypeColumn, sWeightColumn, sReceiptDateColumn);
+		shipmentTable.getColumns().addAll(sIDColumn, sFreightTypeColumn, sWeightColumn, sReceiptDateColumn, sWeightUnitColumn);
 
 		// Create Table Header
 		Label tableHeadingLabel = new Label("Warehouse " + selectedWarehouse.getId());
@@ -290,34 +298,36 @@ public class WarehouseView extends Application{
 		// Text Fields
 		sIDTextField = new TextField();
 		sIDTextField.setPromptText("ID");
-		sIDTextField.setMinWidth(100);
+		sIDTextField.setMinWidth(80);
 		Region spacer1 = new Region();
-		spacer1.setMinWidth(100);
 
 		sMethodTextField = new TextField();
 		sMethodTextField.setPromptText("Shipment Method");
-		sMethodTextField.setMinWidth(200);
+		sMethodTextField.setMinWidth(180);
 		Region spacer2 = new Region();
-		spacer1.setMinWidth(200);
 		
 		sWeightTextField = new TextField();
 		sWeightTextField.setPromptText("Weight");
-		sWeightTextField.setMinWidth(100);
+		sWeightTextField.setMinWidth(80);
 		Region spacer3 = new Region();
-		spacer1.setMinWidth(100);
 		
 		sReceiptDateTextField = new TextField();
 		sReceiptDateTextField.setPromptText("Receipt Date");
-		sReceiptDateTextField.setMinWidth(200);
+		sReceiptDateTextField.setMinWidth(180);
 		Region spacer4 = new Region();
-		spacer1.setMinWidth(200);
+		
+		sWeightUnitTextField = new TextField();
+		sWeightUnitTextField.setPromptText("Weight Unit");
+		sWeightUnitTextField.setMinWidth(60);
+		Region spacer5 = new Region();
 		
 		// Buttons
 		Button addBtn = new Button("Add");
 		addBtn.setMinWidth(60);
+		Region spacer6 = new Region();
+		spacer6.setMinWidth(60);
 		addBtn.setOnAction(e -> addShipmentClicked(selectedWarehouse));
-		Region spacer5 = new Region();
-		spacer1.setMinWidth(60);
+		
 
 		Button deleteBtn = new Button("Delete");
 		deleteBtn.setMinWidth(60);
@@ -327,7 +337,9 @@ public class WarehouseView extends Application{
 		HBox.setHgrow(sIDTextField, Priority.ALWAYS);
 		HBox.setHgrow(sMethodTextField, Priority.ALWAYS);
 		HBox.setHgrow(sWeightTextField, Priority.ALWAYS);
+		HBox.setHgrow(sWeightUnitTextField, Priority.ALWAYS);
 		HBox.setHgrow(sReceiptDateTextField, Priority.ALWAYS);
+		
 		
 		// Spacers for layout consistency when shipment adding controls
 		// not available
@@ -336,14 +348,16 @@ public class WarehouseView extends Application{
 		HBox.setHgrow(spacer3, Priority.ALWAYS);
 		HBox.setHgrow(spacer4, Priority.ALWAYS);
 		HBox.setHgrow(spacer5, Priority.ALWAYS);
+		HBox.setHgrow(spacer6, Priority.ALWAYS);
+		
 
 		bottomPane.setPadding(new Insets(10));
 		bottomPane.setSpacing(8);
 		
 		if (warehouseTracker.freightIsEnabled(selectedWarehouse.getId())) {
-			bottomPane.getChildren().addAll(sIDTextField, sMethodTextField, sWeightTextField, sReceiptDateTextField, addBtn, deleteBtn);
+			bottomPane.getChildren().addAll(sIDTextField, sMethodTextField, sWeightTextField, sWeightUnitTextField, sReceiptDateTextField, addBtn, deleteBtn);
 		}else {
-			bottomPane.getChildren().addAll(spacer1, spacer2, spacer3, spacer4, spacer5, deleteBtn);
+			bottomPane.getChildren().addAll(spacer1, spacer2, spacer3, spacer4, spacer5, spacer6, deleteBtn);
 		}
 		
 
@@ -398,33 +412,49 @@ public class WarehouseView extends Application{
 		String warehouseName = wNameTextField.getText();
 		boolean freightStatus = false;
 		
-		String wFreightStatusString = wFreightStatus.getText();
-		
-		if (wFreightStatusString.compareTo("E") == 0) {
-			freightStatus = true;
-		}else if (wFreightStatusString.compareTo("D") == 0) {
-			freightStatus = false;
+		// Handles negative inputs, as well as making sure warehouseID input is an int
+		int intCheck = -1;
+		try {
+			intCheck = Integer.parseInt(warehouseID);
+		} catch (NumberFormatException e) {
+			MessageBox.show("Please enter a integer value for warehouseID(i.e 213, 31, 6): " + wIDTextField.getText() + " ", "Error");	
 		}
 		
-		if (wFreightStatusString.compareTo("E") != 0 && wFreightStatusString.compareTo("D") != 0 ) {			
-			MessageBox.show("Please enter a valid option for freight status, your input: " + wFreightStatus.getText() + " ", "Error");	
+		String wFreightStatusString = wFreightStatus.getText().toUpperCase();
+
+		// Continue to create Warehouse object and add necessary attributes if warehouseID is valid
+		if ((intCheck > -1)) {
+			if (wFreightStatusString.compareTo("E") == 0) {
+				freightStatus = true;
+			}else if (wFreightStatusString.compareTo("D") == 0) {
+				freightStatus = false;
+			}
+			
+			if (wFreightStatusString.compareTo("E") != 0 && wFreightStatusString.compareTo("D") != 0) {			
+				MessageBox.show("Please enter a valid option for freight status, your input: " + wFreightStatus.getText() + " ", "Error");	
+			}else {
+				Warehouse nWarehouse = new Warehouse(warehouseName, warehouseID);
+				//Warehouse nWarehouse = new Warehouse(warehouseID);
+				boolean added = warehouseTracker.addWarehouse(nWarehouse);
+				// If not a duplicate
+				if (added) {
+					// Freight Status is enabled by default, if option "D"
+					// disable freight
+					if (freightStatus == false) { nWarehouse.disableFreight(); }
+					
+					wIDTextField.clear();
+					wNameTextField.clear();
+					wFreightStatus.clear();
+					
+					shipmentScene = createWarehouseTable();
+					primaryStage.setScene(shipmentScene);
+				}else {
+					MessageBox.show("Warehouse with ID: " + wIDTextField.getText() + " already exists", "Error: Duplicate Warehouse");
+				}
+			}
 		}else {
-			//TODO: Warehouse nWarehouse = new Warehouse(warehouseID, warehouseName);
-			Warehouse nWarehouse = new Warehouse(warehouseID);
-			
-			// Freight Status is enabled by default, if option "D"
-			// disable freight
-			if (freightStatus == false) { nWarehouse.disableFreight(); }
-			warehouseTracker.addWarehouse(nWarehouse);
-			
-			wIDTextField.clear();
-			wNameTextField.clear();
-			wFreightStatus.clear();
-			
-			shipmentScene = createWarehouseTable();
-			primaryStage.setScene(shipmentScene);
+			MessageBox.show("Please enter a positive integer value for warehouseID(i.e 213, 31, 6): " + wIDTextField.getText() + " ", "Error");	
 		}
-		
 	}
 	
 	private void addShipmentClicked(Warehouse warehouse) {
@@ -434,6 +464,7 @@ public class WarehouseView extends Application{
 		
 		String shipmentID = sIDTextField.getText();
 		FreightType fType = null;
+		WeightUnit wUnit = null;
 		double weight = 0;
 		long receiptDate = 0;
 		
@@ -442,6 +473,12 @@ public class WarehouseView extends Application{
 			fType = FreightType.valueOf(sMethodTextField.getText().toUpperCase());
 		} catch (IllegalArgumentException | NullPointerException e) {
 			MessageBox.show("Please enter a valid option for freight type (i.e TRUCK, AIR, SHIP, RAIL): " + sMethodTextField.getText() + " ", "Error");
+		}
+		
+		try {
+			wUnit = WeightUnit.valueOf(sWeightUnitTextField.getText().toUpperCase());
+		} catch (IllegalArgumentException | NullPointerException e) {
+			MessageBox.show("Please enter a valid option for weight unit (i.e KG, LBS): " + sWeightUnitTextField.getText() + " ", "Error");
 		}
 		
 		try {
@@ -458,18 +495,19 @@ public class WarehouseView extends Application{
 		}
 		
 		
-		if (fType != null) {
+		if (fType != null && wUnit != null) {
 			Shipment nShipment = new Shipment.Builder()
 					.id(shipmentID)
 					.type(fType)
 					.weight(weight)
+					.weightUnit(wUnit)
 					.date(receiptDate)
 					.build();
 			warehouseTracker.addShipment(warehouse, nShipment);
 			
-			
 			sMethodTextField.clear();
 			sWeightTextField.clear();
+			sWeightUnitTextField.clear();
 			sReceiptDateTextField.clear();
 			
 			shipmentScene = createShipmentTable(warehouse);

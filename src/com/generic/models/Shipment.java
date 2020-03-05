@@ -1,4 +1,4 @@
-package com.generic.model;
+package com.generic.models;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,9 +12,10 @@ import org.json.simple.JSONObject;
 
 public class Shipment extends PersistentJson {
 
-	private static final String SHIPMENT_DETAIl_FORMAT_STRING = "Shipment_Id: %s\n  Weight: %.1f\n  Freight_Type: %s\n  Receipt_Date: %s";
+	private static final String SHIPMENT_DETAIl_FORMAT_STRING = "Shipment_Id: %s\n  Weight: %.1f%s\n  Freight_Type: %s\n  Receipt_Date: %s";
 
 	private FreightType freight; // Freight type
+	private WeightUnit weightUnit; // Shipment weight unit
 	private double weight; // Shipment weight
 	private long receiptDate; // Need to figure out the date format
 	
@@ -25,12 +26,14 @@ public class Shipment extends PersistentJson {
 	 * @param weight shipment weight
 	 * @param receiptDate shipment receipt
 	 */
-	private Shipment(String shipmentID, FreightType freight, double weight, long receiptDate) {
+	private Shipment(String shipmentID, FreightType freight, double weight, long receiptDate, WeightUnit weightUnit) {
 		this.id = shipmentID;
 		this.freight = freight;
 		this.weight = weight;
 		this.receiptDate = receiptDate;
+		this.weightUnit = weightUnit;
 	}
+	
 	
 	public String getShipmentID() {
 		return id;
@@ -47,10 +50,15 @@ public class Shipment extends PersistentJson {
 	public long getReceiptDate() {
 		return receiptDate;
 	}
-	
+		
 	public String getReceiptDateString() {
 		return milliToDate(receiptDate);
 	}
+	
+	public WeightUnit getWeightUnit() {
+		return weightUnit;
+	}
+
 	
 	/**
 	 * Converts milliseconds to a date (STATIC)
@@ -65,7 +73,7 @@ public class Shipment extends PersistentJson {
 	
 	@Override
 	public String toString() {
-		return String.format(SHIPMENT_DETAIl_FORMAT_STRING, id, weight, freight.toString().toLowerCase(), getReceiptDateString());
+		return String.format(SHIPMENT_DETAIl_FORMAT_STRING, id, weight, weightUnit.toString().toLowerCase(), freight.toString().toLowerCase(), getReceiptDateString());
 	}
 
 	@Override
@@ -85,6 +93,7 @@ public class Shipment extends PersistentJson {
 		private FreightType freight;
 		private double weight;
 		private long receiptDate;
+		private WeightUnit weightUnit;
 		
 		public Builder() {}
 		
@@ -108,8 +117,13 @@ public class Shipment extends PersistentJson {
 			return this;
 		}
 		
+		public Builder weightUnit(WeightUnit weightUnit) {
+			this.weightUnit = weightUnit;
+			return this;
+		}
+		
 		public Shipment build() {
-			return new Shipment(shipmentID, freight, weight, receiptDate);
+			return new Shipment(shipmentID, freight, weight, receiptDate, weightUnit);
 		}
 	}
 }

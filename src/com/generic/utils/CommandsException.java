@@ -1,4 +1,4 @@
-package com.generic.util;
+package com.generic.utils;
 
 @SuppressWarnings("serial")
 public class CommandsException extends Exception {

@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import com.generic.model.PersistentJson;
-import com.generic.model.Shipment;
-import com.generic.model.Warehouse;
+
+import com.generic.models.PersistentJson;
+import com.generic.models.Shipment;
+import com.generic.models.Warehouse;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 /**

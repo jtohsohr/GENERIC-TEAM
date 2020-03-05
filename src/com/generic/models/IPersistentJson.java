@@ -1,4 +1,4 @@
-package com.generic.model;
+package com.generic.models;
 
 public interface IPersistentJson {
 	String getId();
