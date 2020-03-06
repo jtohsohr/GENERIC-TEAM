@@ -1,14 +1,22 @@
 package com.generic.QATester;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.IOException;
+import java.util.logging.Logger;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.xml.sax.SAXException;
 
 import com.generic.models.FreightType;
 import com.generic.models.Shipment;
 import com.generic.models.Warehouse;
 import com.generic.tracker.WarehouseTracker;
+import com.generic.utils.Persistent;
 
 
 /**
@@ -134,6 +142,25 @@ public class QATester {
 		// Adding shipment to a warehouse with freight receipt disabled
 		assertFalse(wTracker.addShipment("65411", shipment2));
 		
+	}
+	
+	@Test
+	void testXmlParser() {
+		try {
+			Persistent.parseXml("C:\\Users\\swift\\Downloads\\example.xml");
+			
+			Logger.getAnonymousLogger().info(wTracker.getWarehouse("485").toString());
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
