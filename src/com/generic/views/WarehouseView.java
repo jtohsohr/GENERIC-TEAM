@@ -2,8 +2,6 @@ package com.generic.views;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
-import com.fasterxml.jackson.annotation.Nulls;
 import com.generic.models.FreightType;
 import com.generic.models.Shipment;
 import com.generic.models.Warehouse;

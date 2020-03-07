@@ -1,22 +1,18 @@
 package com.generic.QATester;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.IOException;
+import java.io.File;
 import java.util.logging.Logger;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.xml.sax.SAXException;
-
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
 import com.generic.models.FreightType;
 import com.generic.models.Shipment;
 import com.generic.models.Warehouse;
 import com.generic.tracker.WarehouseTracker;
-import com.generic.utils.Persistent;
+import com.generic.xml.models.Shipments;
 
 
 /**
@@ -146,21 +142,16 @@ public class QATester {
 	
 	@Test
 	void testXmlParser() {
+		Serializer serializer = new Persister();
+		File sourceFile = new File ("C:\\Users\\swift\\Downloads\\example2.xml");
+		Shipments shipments = null;
 		try {
-			Persistent.parseXml("C:\\Users\\swift\\Downloads\\example.xml");
-			
-			Logger.getAnonymousLogger().info(wTracker.getWarehouse("485").toString());
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
+			shipments = serializer.read(Shipments.class, sourceFile);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		assertNotNull(shipments);
+		shipments.getWarehouse().forEach(warehouseObject -> Logger.getAnonymousLogger().info("WarehouseID: " + warehouseObject.getId() + "\n" + warehouseObject.getShipments().toString()+ "\n"));
 	}
 	
 	/**

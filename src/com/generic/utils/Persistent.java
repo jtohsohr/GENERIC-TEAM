@@ -1,29 +1,15 @@
 package com.generic.utils;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import com.generic.models.FreightType;
 import com.generic.models.Shipment;
 import com.generic.models.Warehouse;
-import com.generic.models.WeightUnit;
 import com.generic.tracker.WarehouseTracker;
 
 public class Persistent {
@@ -72,7 +58,7 @@ public class Persistent {
 	}
 	
 	
-	
+	/*
 	public static void parseXml(String filePath) throws SAXException, IOException, ParserConfigurationException {
 		
 		File inputFile = new File(filePath);
@@ -120,6 +106,7 @@ public class Persistent {
 		}
 		
 	}
+	*/
 	
 	
 

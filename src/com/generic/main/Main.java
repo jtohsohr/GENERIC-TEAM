@@ -1,18 +1,12 @@
 package com.generic.main;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
-
 import com.generic.utils.Commands;
-import com.generic.utils.CommandsException;
 
 
 /**
  * Entry Point
- * 
  * To import run the command: import example.json
- * 
  * @author GENERIC TEAM
  *
  */
@@ -30,7 +24,6 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		
 		
 		/**
 		welcome();
