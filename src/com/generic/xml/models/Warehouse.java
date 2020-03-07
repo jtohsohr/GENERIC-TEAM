@@ -17,11 +17,6 @@ public class Warehouse {
 	
 	@ElementList(inline = true, required = false)
 	List<Shipment> shipments;
-	/*
-	public Warehouse(String type, String id) {
-		shipments = new ArrayList<Shipment>();
-	}
-	*/
 	
 	public String getName() {
 		return name;
