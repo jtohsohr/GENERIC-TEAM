@@ -12,7 +12,7 @@ import org.json.simple.JSONObject;
 
 public class Shipment extends PersistentJson {
 
-	private static final String SHIPMENT_DETAIl_FORMAT_STRING = "Shipment_Id: %s\n  Weight: %.1f%s\n  Freight_Type: %s\n  Receipt_Date: %s";
+	private static final String SHIPMENT_DETAIl_FORMAT_STRING = "Shipment_Id: %s\n  Freight_Type: %s\n  Receipt_Date: %s";
 
 	private FreightType freight; // Freight type
 	private WeightUnit weightUnit; // Shipment weight unit
@@ -31,7 +31,7 @@ public class Shipment extends PersistentJson {
 		this.freight = freight;
 		this.weight = weight;
 		this.receiptDate = receiptDate;
-		this.weightUnit = weightUnit;
+		this.weightUnit = (weightUnit != null) ? weightUnit : WeightUnit.LBS ;
 	}
 	
 	
@@ -73,7 +73,7 @@ public class Shipment extends PersistentJson {
 	
 	@Override
 	public String toString() {
-		return String.format(SHIPMENT_DETAIl_FORMAT_STRING, id, weight, weightUnit.toString().toLowerCase(), freight.toString().toLowerCase(), getReceiptDateString());
+		return String.format(SHIPMENT_DETAIl_FORMAT_STRING, id, weight, freight.toString().toLowerCase(), getReceiptDateString());
 	}
 
 	@Override

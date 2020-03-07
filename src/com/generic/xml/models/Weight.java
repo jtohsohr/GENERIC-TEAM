@@ -18,8 +18,4 @@ public class Weight {
 	public String getUnit () {
 		return unit;
 	}
-	
-	
-	
-
 }

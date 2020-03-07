@@ -11,7 +11,7 @@ import javafx.geometry.*;
  * @author GENERIC TEAM
  *
  */
-public class MessageBox {
+public class MessageBoxView {
 	
 	/**
 	 * A method to display a message box
