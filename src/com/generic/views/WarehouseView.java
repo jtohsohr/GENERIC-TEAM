@@ -3,12 +3,14 @@ package com.generic.views;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.logging.Logger;
+
 import com.generic.models.FreightType;
 import com.generic.models.Shipment;
 import com.generic.models.Warehouse;
 import com.generic.models.WeightUnit;
 import com.generic.tracker.WarehouseTracker;
 import com.generic.views.io.IOFileChooser;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,7 +38,7 @@ import javafx.stage.Stage;
 
 /**
  * This class handles everything concerning the User Interface
- * 
+ *
  * @author GENERIC TEAM
  *
  */
@@ -60,7 +62,7 @@ public class WarehouseView extends Application {
 	private TableView<Shipment> shipmentTable;
 
 	private TextField wIDTextField, wNameTextField, wFreightStatus, sIDTextField, sMethodTextField, sWeightTextField,
-			sReceiptDateTextField, sWeightUnitTextField;
+	sReceiptDateTextField, sWeightUnitTextField;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -99,7 +101,7 @@ public class WarehouseView extends Application {
 	/**
 	 * Creates a scene with table containing information about the Warehouses
 	 * available
-	 * 
+	 *
 	 * @return Scene the warehouse table scene
 	 */
 
@@ -165,9 +167,9 @@ public class WarehouseView extends Application {
 
 		MenuItem jsonImportOption = new MenuItem(".json");
 
-		jsonImportOption.setOnAction(e -> { 
-			chooseJsonFile(); 
-			});
+		jsonImportOption.setOnAction(e -> {
+			chooseJsonFile();
+		});
 
 		MenuItem jsonExportOption = new MenuItem(".json");
 		MenuItem xmlOption = new MenuItem(".xml");
@@ -535,7 +537,7 @@ public class WarehouseView extends Application {
 		warehouseScene = createWarehouseTable();
 		primaryStage.setScene(warehouseScene);
 	}
-	
+
 	private Logger getL () {
 		return Logger.getAnonymousLogger();
 	}
