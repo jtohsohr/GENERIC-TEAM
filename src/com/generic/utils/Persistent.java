@@ -18,15 +18,16 @@ import com.generic.xml.models.ShipmentXml;
 import com.generic.xml.models.ShipmentsXml;
 import com.generic.xml.models.WarehouseXml;
 
+/**
+ * Parses data from Json and Xml files
+ * @author GENERIC TEAM
+ */
 public class Persistent {
 
-
-	// static ?
-	public Persistent() {}
+	private Persistent() {}
 
 	/**
 	 * Reads a file that is in JSON format containing various shipment information.
-	 *
 	 * @param filepath the path of JSON file
 	 * @throws Exception
 	 */
@@ -42,8 +43,9 @@ public class Persistent {
 	}
 
 	/**
-	 * Reads a file that is in JSON format containing various shipment information.
-	 * @param JSON file object
+	 * Reads a file that is in JSON format containing
+	 * various shipment information.
+	 * @param JSON file object.
 	 */
 	@SuppressWarnings("unchecked")
 	public static void parseJsonFromFile(File file) throws Exception {
@@ -87,6 +89,12 @@ public class Persistent {
 		warehouseTracker.addShipment(warehouseID, shipment);
 	}
 
+	/**
+	 * Reads the metadata from specified xml file.
+	 * @param file xml file to parse.
+	 * @throws Exception throws exceptions specified in the
+	 * 					 simplexml API if parsing if unsuccessful.
+	 */
 	public static void parseXmlFromFile(File file) throws Exception {
 		Serializer serializer = new Persister();
 		ShipmentsXml shipments = null;
@@ -98,6 +106,10 @@ public class Persistent {
 		}
 	}
 
+	/**
+	 * Parse the xml warehouse object to actual warehouse object
+	 * @param warehouseXmlObject the xml warehouse object
+	 */
 	private static void parseXmlToWarehousePojo(WarehouseXml warehouseXmlObject) {
 		WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
 		String warehouseID = warehouseXmlObject.getId();
@@ -113,6 +125,11 @@ public class Persistent {
 		}
 	}
 
+	/**
+	 * Parse the xml shipment object to  actual shipment object
+	 * @param warehouseID the warehouseID to add shipment to.
+	 * @param shipmentXmlObject the xml shipment object
+	 */
 	private static void parseToXmlShipmentsPojo(String warehouseID, ShipmentXml shipmentXmlObject) {
 		WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
 		// build a shipment

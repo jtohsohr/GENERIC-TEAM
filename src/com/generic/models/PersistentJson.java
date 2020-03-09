@@ -8,7 +8,11 @@ import java.io.PrintWriter;
 import org.json.simple.JSONObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+/**
+ * Implement of data(Json) persistence
+ * @author GENERIC TEAM
+ *
+ */
 public abstract class PersistentJson implements IPersistentJson {
 	protected String id;
 
@@ -19,10 +23,15 @@ public abstract class PersistentJson implements IPersistentJson {
 		return id;
 	}
 
+	/**
+	 * Saves a file in a default(output) folder
+	 * located in the project's folder.
+	 * @param fileName name of the file to save.
+	 */
 	@Override
-	public void save(String filename) {
+	public void save(String fileName) {
 		//String filePath = "output/"+ filename;
-		String filePath = "output/"+ filename;
+		String filePath = "output/"+ fileName;
 		File file = new File(filePath);
 
 		// prettify the json output
@@ -45,6 +54,11 @@ public abstract class PersistentJson implements IPersistentJson {
 		}
 	}
 
+	/**
+	 * Saves a file in an already specified directory
+	 * @param filePath the file path containing
+	 * 		  directory and name to save exported file in.
+	 */
 	public void saveToDir(String filePath) {
 
 		// prettify the json output

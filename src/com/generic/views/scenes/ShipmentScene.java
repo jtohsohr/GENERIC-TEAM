@@ -27,14 +27,26 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+/**
+ * Creates a shipment scene
+ * @author GENETIC TEAM
+ *
+ */
 public final class ShipmentScene {
 
 	private static WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
 	private static TextField sIDTextField, sMethodTextField, sWeightTextField,
-	sReceiptDateTextField, sWeightUnitTextField;
+	sReceiptDateTextField, sWeightUnitTextField; // textfields in the shipment class
 
-	private static TableView<Shipment> shipmentTable;
+	private static TableView<Shipment> shipmentTable; // holds the shipment table
 
+	/**
+	 * Creates a shipment scene with tables of shipments
+	 * @param primaryStage reference to the primary stage
+	 * @param selectedWarehouse the warehouse which
+	 * 							shipments are contained in.
+	 * @return a new based on the selected warehouse
+	 */
 	@SuppressWarnings("unchecked")
 	public static Scene createShipmentTable(Stage primaryStage, Warehouse selectedWarehouse) {
 
@@ -193,6 +205,9 @@ public final class ShipmentScene {
 		return mShipmentScene;
 	}
 
+	/*
+	 * Toggles the receiving freight status of a warehouse
+	 */
 	private static void toggleFreightClicked(Stage primaryStage, Warehouse warehouse) {
 		if (!warehouseTracker.freightIsEnabled(warehouse.getId())) {
 			warehouseTracker.enableFreight(warehouse.getId());

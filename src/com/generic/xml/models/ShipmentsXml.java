@@ -4,7 +4,13 @@ import java.util.List;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
-
+/**
+ * This class models a shipments(root node) element
+ * adhering to simplexml API requirements.
+ * @author GENERIC TEAM
+ *
+ */
+// Can also child elements be inner classes?
 @Root
 public class ShipmentsXml {
 	@ElementList(inline = true, name = "Warehouse")

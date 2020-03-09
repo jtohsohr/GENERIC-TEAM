@@ -4,7 +4,9 @@ import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Text;
 
 /**
- * @author Seyi Ola
+ * This class models a weight element
+ * adhering to simplexml API requirements.
+ * @author GENERIC TEAM
  *
  */
 public class Weight {

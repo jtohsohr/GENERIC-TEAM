@@ -1,18 +1,21 @@
 package com.generic.utils;
 
-import javafx.stage.*;
-import javafx.scene.*;
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
-import javafx.geometry.*;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
- * This class creates a message box
+ * This utility class that creates a message box
  * @author GENERIC TEAM
  *
  */
 public class MessageBoxView {
-	
+
 	/**
 	 * A method to display a message box
 	 * @param message the message to display

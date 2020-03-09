@@ -4,6 +4,12 @@ import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+/**
+ * This class models a shipment element
+ * adhering to simplexml API requirements.
+ * @author GENERIC TEAM
+ *
+ */
 @Root(name = "Shipment")
 public class ShipmentXml {
 

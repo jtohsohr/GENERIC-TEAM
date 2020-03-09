@@ -9,7 +9,6 @@ import org.json.simple.JSONObject;
 
 /**
  * This class creates a model of a Warehouse.
- *
  * @author GENERIC TEAM
  */
 
@@ -143,6 +142,10 @@ public class Warehouse extends PersistentJson {
 		return (shipments.size() == 0);
 	}
 
+	/**
+	 * Creates a JsonOnject from this Warehouse instance
+	 * @return JSONObject the JsonObject created.
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public JSONObject toJSON() {

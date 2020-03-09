@@ -39,7 +39,6 @@ public final class WarehouseScene {
 	/**
 	 * Creates a scene with table containing information about the Warehouses
 	 * available
-	 *
 	 * @return Scene the warehouse table scene
 	 */
 	@SuppressWarnings("unchecked")

@@ -8,6 +8,11 @@ import javafx.application.Application;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * Opens a directory chooser(file explorer) to choose files
+ * @author GENERIC TEAM
+ *
+ */
 public final class FileChooserIO extends Application {
 
 	@Override
@@ -36,6 +41,11 @@ public final class FileChooserIO extends Application {
 				);
 	}
 
+	/**
+	 * Sends the file to a parse based on the extension
+	 * @param file file to be parse
+	 * @throws Exception see Persistent class
+	 */
 	private void openFile(File file) throws Exception {
 		String extension = Files.getFileExtension(file.getName());
 		if (extension.equalsIgnoreCase("json")) {
