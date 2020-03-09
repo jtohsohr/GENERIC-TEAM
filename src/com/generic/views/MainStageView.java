@@ -3,10 +3,9 @@ package com.generic.views;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
-import com.generic.models.FreightType;
-import com.generic.models.Shipment;
-import com.generic.models.Warehouse;
 import com.generic.tracker.WarehouseTracker;
+import com.generic.utils.MessageBoxView;
+import com.generic.utils.Persistent;
 import com.generic.views.scenes.WarehouseScene;
 
 import javafx.application.Application;
@@ -20,9 +19,9 @@ import javafx.stage.Stage;
  *
  */
 
-public class WarehouseView extends Application {
+public class MainStageView extends Application {
 
-	public static WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+	//public static WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
 
 	private final static Dimension SCREEN_DIMENSION = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -30,6 +29,7 @@ public class WarehouseView extends Application {
 
 	private final static double SCREEN_HEIGHT = SCREEN_DIMENSION.getHeight();
 
+	private final static String SAVED_STATE_FILE_STRING = "warehouses_saved_state.json";
 
 	public static void main(String[] args) {
 		launch(args);
@@ -38,6 +38,11 @@ public class WarehouseView extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
+		// TODO: Populate the table here,
+		// checking if we have a file saved in output folder,
+		// if we do, populate our table by parsing data
+		// if not, create an empty table
+		/*
 		Warehouse testWarehouse = new Warehouse("15566");
 		Warehouse testWarehouse2 = new Warehouse("12312");
 		Shipment testShipment = new Shipment.Builder().id("asad1").type(FreightType.TRUCK).weight(34.0)
@@ -49,6 +54,8 @@ public class WarehouseView extends Application {
 		warehouseTracker.addWarehouse(testWarehouse2);
 		warehouseTracker.addShipment(testWarehouse, testShipment);
 		warehouseTracker.addShipment(testWarehouse2, testShipment2);
+		 */
+
 
 		//shipmentScene = createShipmentTable(testWarehouse);
 		Scene warehouseScene = WarehouseScene.createWarehouseTable(primaryStage);
@@ -61,6 +68,32 @@ public class WarehouseView extends Application {
 		primaryStage.setTitle("G.T TRACKER");
 		primaryStage.show();
 
+		setUpSavedState(primaryStage);
+
+		primaryStage.setOnCloseRequest(e -> { saveState(primaryStage); });
+
+	}
+
+	private void setUpSavedState(Stage primaryStage) {
+		try {
+			Persistent.parseJson("output/" + SAVED_STATE_FILE_STRING);
+			Scene warehouseScene = WarehouseScene.createWarehouseTable(primaryStage);
+			primaryStage.setScene(warehouseScene);
+		} catch (Exception e) {
+			MessageBoxView.show("No saved data found / data corrupted", "Welcome");
+		}
+
+	}
+
+	private void saveState(Stage primaryStage) {
+		WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+		if (warehouseTracker.getWarehousesList().isEmpty()) {
+			primaryStage.close();
+		}else {
+			warehouseTracker = WarehouseTracker.getInstance();
+			warehouseTracker.save(SAVED_STATE_FILE_STRING);
+			primaryStage.close();
+		}
 	}
 
 }

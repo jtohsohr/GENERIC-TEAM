@@ -6,8 +6,9 @@ package com.generic.models;
  */
 
 public enum FreightType {
-	AIR, 
-	TRUCK, 
-	SHIP, 
-	RAIL;
+	AIR,
+	TRUCK,
+	SHIP,
+	RAIL,
+	NA;
 }

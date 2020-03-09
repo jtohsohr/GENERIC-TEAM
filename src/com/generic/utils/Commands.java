@@ -1,15 +1,12 @@
 package com.generic.utils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
-import org.json.simple.parser.ParseException;
 
 import com.generic.models.FreightType;
 import com.generic.models.PersistentJson;
@@ -20,13 +17,13 @@ public class Commands {
 	private static Commands command;
 
 	private Map<String, Executable> commandList;
-	
+
 	private Commands() {}
-	
+
 	public void execute(String command, String[] args) throws CommandsException {
 		commandList.get(command).execute(args);
 	}
-	
+
 	public static Commands getInstance() {
 		if (command == null) {
 			synchronized(Commands.class) {
@@ -37,107 +34,107 @@ public class Commands {
 		}
 		return command;
 	}
-	
+
 	public List<String> getCommandList() {
 		return new ArrayList<>(commandList.keySet());
 	}
-	
+
 	public boolean exist(String command) {
 		return commandList.containsKey(command);
 	}
-	
+
 	private void init() {
 		// some annotations here to help users how to use commands
 		commandList.put("import", (arg -> {
 			try {
-				new Persistent().parseJson(new File("resource/" + arg[0]).getAbsolutePath());
+				Persistent.parseJson(new File("resource/" + arg[0]).getAbsolutePath());
 				System.out.println("Sucessfully imported "+arg[0]);
-			} catch (IOException | ParseException e) {
+			} catch (Exception e) {
 				System.out.println("** System can not read the file!");
 				e.printStackTrace();
 			}
 		}));
-		
+
 		commandList.put("export", (arg -> {
-				WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
-				try {
-					String mWarehouseID = arg[0];
-					if (!warehouseTracker.warehouseExists(mWarehouseID)) {
-						return;
-					}
-					PersistentJson warehouse = warehouseTracker.getWarehouse(mWarehouseID);
-					warehouse.save(warehouse.getId()+".json");
-					
-					System.out.println("Sucessfully exported warehouse");
-				} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-					System.out.println("** Please input a warehouse ID to export");
+			WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+			try {
+				String mWarehouseID = arg[0];
+				if (!warehouseTracker.warehouseExists(mWarehouseID)) {
+					return;
 				}
+				PersistentJson warehouse = warehouseTracker.getWarehouse(mWarehouseID);
+				warehouse.save(warehouse.getId()+".json");
+
+				System.out.println("Sucessfully exported warehouse");
+			} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+				System.out.println("** Please input a warehouse ID to export");
+			}
 		}));
-		
+
 		commandList.put("print", (arg -> {
-				String warehouseID;
-				try {
-					WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
-					warehouseID = arg[0];
-					warehouseTracker.printWarehouseDetails(warehouseID);
-				} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-					System.out.println("** Please input a warehouseID");
-				}
+			String warehouseID;
+			try {
+				WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+				warehouseID = arg[0];
+				warehouseTracker.printWarehouseDetails(warehouseID);
+			} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+				System.out.println("** Please input a warehouseID");
+			}
 		}));
-		
+
 		commandList.put("printall", (arg -> {
 			WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
 			if (!warehouseTracker.isEmpty()) {
-					warehouseTracker.printAll();
+				warehouseTracker.printAll();
+			} else {
+				System.out.println("** No warehouses avaliable, please import data first");
+			}
+		}));
+
+		commandList.put("enablef", (arg -> {
+			String warehouseID1;
+			WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+			try {
+				warehouseID1 = arg[0];
+				if (!warehouseTracker.isEmpty()) {
+					warehouseTracker.enableFreight(warehouseID1);
+					System.out.println("** Freight enabled for warehouse #" + warehouseID1);
+
+				} else {
+					System.out.println("** No warehouse avaliable, please import data first");
+				}
+			} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+				System.out.println("** Please input an integer");
+			}
+		}));
+
+		commandList.put("disablef", (arg -> {
+			String warehouseID2;
+			WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+			try {
+				warehouseID2 = arg[0];
+				if (!warehouseTracker.isEmpty()) {
+					warehouseTracker.endFreight(warehouseID2);
+					System.out.println("** Freight ended for warehouse #" + warehouseID2);
+
 				} else {
 					System.out.println("** No warehouses avaliable, please import data first");
 				}
+			} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+				System.out.println("** Please input an integer");
+			}
 		}));
-		
-		commandList.put("enablef", (arg -> {
-				String warehouseID1;
-				WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
-				try {
-					warehouseID1 = arg[0];
-					if (!warehouseTracker.isEmpty()) {
-						warehouseTracker.enableFreight(warehouseID1);
-						System.out.println("** Freight enabled for warehouse #" + warehouseID1);
 
-					} else {
-						System.out.println("** No warehouse avaliable, please import data first");
-					}
-				} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-					System.out.println("** Please input an integer");
-				}
-		}));
-		
-		commandList.put("disablef", (arg -> {
-				String warehouseID2;
-				WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
-				try {
-					warehouseID2 = arg[0];
-					if (!warehouseTracker.isEmpty()) {
-						warehouseTracker.endFreight(warehouseID2);
-						System.out.println("** Freight ended for warehouse #" + warehouseID2);
-
-					} else {
-						System.out.println("** No warehouses avaliable, please import data first");
-					}
-				} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-					System.out.println("** Please input an integer");
-				}
-		}));
-		
 		commandList.put("exit", (arg -> {
 			throw new CommandsException("Exit");
 		}));
-		
+
 		commandList.put("add", (arg -> {
 			WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
 			try {
 				String mWarehouseID = arg[0];
 				if (!warehouseTracker.isEmpty()) {
-	
+
 					if (!warehouseTracker.warehouseExists(mWarehouseID)) {
 						System.out.println("** Warehouse with ID #" + mWarehouseID + " does not exist");
 					} else if (!warehouseTracker.freightIsEnabled(mWarehouseID)) {
@@ -146,32 +143,32 @@ public class Commands {
 						boolean added = addShipmentOp(mWarehouseID);
 						if (!added) {
 							System.out.println("** Shipment could not be added because"
-									         + " freight has ended for this warehouse");
+									+ " freight has ended for this warehouse");
 						}
 					}
 				} else {
 					System.out.println("** No warehouses with avaliable, please import data first");
 				}
 			} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-						System.out.println("** Please input a warehouse_id");
+				System.out.println("** Please input a warehouse_id");
 			}
 		}));
-		
+
 		commandList.put("exportall", (arg -> {
-				try {
-					PersistentJson warehouseTracker = WarehouseTracker.getInstance();
-					warehouseTracker.save(warehouseTracker.getId()+".json");
-					
-					System.out.println("Sucessfully exported warehouse");
-				} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-					System.out.println("** Please input a warehouse ID to export");
-				}
+			try {
+				PersistentJson warehouseTracker = WarehouseTracker.getInstance();
+				warehouseTracker.save(warehouseTracker.getId()+".json");
+
+				System.out.println("Sucessfully exported warehouse");
+			} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+				System.out.println("** Please input a warehouse ID to export");
+			}
 		}));
 	}
-	
+
 	/**
 	 * Adds shipments to the warehouse using the command line interface
-	 * 
+	 *
 	 * @param warehouseID
 	 * @return
 	 */
@@ -189,42 +186,42 @@ public class Commands {
 
 			System.out.print("Enter shipmentID(i.e. iafr4, 15566) -> ");
 			shipmentID = sc.next();
-			
+
 			System.out.print("Enter shipment_method(i.e air, truck, ship, rail) -> ");
-			
-			//TODO: 
+
+			//TODO:
 			ArrayList<String> shipmentMethodList = new ArrayList<String>(Arrays.asList(new String [] {FreightType.AIR.toString()
-																									, FreightType.RAIL.toString()
-																									, FreightType.TRUCK.toString()
-																									, FreightType.SHIP.toString()}));
+					, FreightType.RAIL.toString()
+					, FreightType.TRUCK.toString()
+					, FreightType.SHIP.toString()}));
 			shipmentString = sc.next().toUpperCase();
 			while(!shipmentMethodList.contains(shipmentString))
 			{
 				System.out.print("Please enter a valid shipment_method(i.e air, truck, ship, rail) -> ");
 				shipmentString = sc.next().toUpperCase();
 			}
-			
+
 			System.out.print("Enter weight(i.e. 84.71, 321) -> ");
 			while (!sc.hasNextDouble()) {
 				System.out.print("Please enter a valid weight(i.e. 84.71, 321) -> ");
 				sc.next();
 			}
 			weight = sc.nextDouble();
-			
+
 			System.out.print("Enter receipt_date(i.e 1515354694451) -> ");
 			while (!sc.hasNextDouble()) {
 				System.out.print("Please enter a valid receipt_date(i.e 1515354694451) -> ");
 				sc.next();
 			}
 			receiptDate = sc.nextLong();
-			
+
 			// build a shipment
 			Shipment shipment = new Shipment.Builder()
-											.id(shipmentID)
-											.type(FreightType.valueOf(shipmentString))
-											.weight(weight)
-											.date(receiptDate)
-											.build();
+					.id(shipmentID)
+					.type(FreightType.valueOf(shipmentString))
+					.weight(weight)
+					.date(receiptDate)
+					.build();
 
 			// add the shipment to the warehouse
 			added = warehouseTracker.addShipment(warehouseID, shipment);
@@ -239,7 +236,7 @@ public class Commands {
 			}
 
 		} while (option.equalsIgnoreCase("Y") && added);
-		
+
 		sc.close();
 		return added;
 	}

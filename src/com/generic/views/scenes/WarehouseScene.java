@@ -2,9 +2,9 @@ package com.generic.views.scenes;
 
 import com.generic.models.Warehouse;
 import com.generic.tracker.WarehouseTracker;
-import com.generic.views.MessageBoxView;
-import com.generic.views.WarehouseView;
-import com.generic.views.io.IOFileChooser;
+import com.generic.utils.FileChooserIO;
+import com.generic.utils.FileSaverIO;
+import com.generic.utils.MessageBoxView;
 
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -30,11 +30,11 @@ import javafx.stage.Stage;
 
 public final class WarehouseScene {
 
-	private static WarehouseTracker warehouseTracker = WarehouseView.warehouseTracker;
+	private static WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
 	private static TextField wNameTextField;
 	private static TextField wIDTextField;
 	private static TextField wFreightStatus;
-	private static TableView<Warehouse> warehouseTable;
+	public static TableView<Warehouse> warehouseTable;
 
 	/**
 	 * Creates a scene with table containing information about the Warehouses
@@ -99,18 +99,11 @@ public final class WarehouseScene {
 
 		// Top pane contents
 		Menu fileMenu = new Menu("File");
-		Menu importMenu = new Menu("Import");
-		Menu exportMenu = new Menu("Export");
+		MenuItem importMenu = new MenuItem("Import");
+		MenuItem exportMenu = new MenuItem("Export");
 
-		MenuItem jsonImportOption = new MenuItem(".json");
-
-		jsonImportOption.setOnAction(e -> { chooseJsonFile(primaryStage);});
-
-		MenuItem jsonExportOption = new MenuItem(".json");
-		MenuItem xmlOption = new MenuItem(".xml");
-
-		importMenu.getItems().addAll(jsonImportOption, xmlOption);
-		exportMenu.getItems().addAll(jsonExportOption); // We were required to design for xml imports, not exports
+		importMenu.setOnAction(e -> { chooseJsonFile(primaryStage); });
+		exportMenu.setOnAction(e -> { FileSaverIO.exportWarehouseContents(primaryStage); });
 
 		fileMenu.getItems().addAll(importMenu, exportMenu);
 
@@ -119,7 +112,6 @@ public final class WarehouseScene {
 
 		HBox topPane = new HBox(10);
 		topPane.getChildren().addAll(menuBar);
-
 
 		// Text Fields
 		wNameTextField = new TextField();
@@ -242,7 +234,12 @@ public final class WarehouseScene {
 	 * Opens a fileChooser class to open files.
 	 */
 	private static void chooseJsonFile(Stage primaryStage) {
-		new IOFileChooser().start(new Stage());
+		try {
+			new FileChooserIO().start(new Stage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			MessageBoxView.show("File corrupted", "Error reading file");
+		}
 		Scene warehouseScene = createWarehouseTable(primaryStage);
 		primaryStage.setScene(warehouseScene);
 	}

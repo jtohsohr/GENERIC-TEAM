@@ -1,14 +1,12 @@
 package com.generic.views.scenes;
 
-import java.util.logging.Logger;
-
 import com.generic.models.FreightType;
 import com.generic.models.Shipment;
 import com.generic.models.Warehouse;
 import com.generic.models.WeightUnit;
 import com.generic.tracker.WarehouseTracker;
-import com.generic.views.MessageBoxView;
-import com.generic.views.WarehouseView;
+import com.generic.utils.FileSaverIO;
+import com.generic.utils.MessageBoxView;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,8 +29,7 @@ import javafx.stage.Stage;
 
 public final class ShipmentScene {
 
-	private static WarehouseTracker warehouseTracker = WarehouseView.warehouseTracker;
-
+	private static WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
 	private static TextField sIDTextField, sMethodTextField, sWeightTextField,
 	sReceiptDateTextField, sWeightUnitTextField;
 
@@ -100,8 +97,18 @@ public final class ShipmentScene {
 			toggleFreightClicked(primaryStage, selectedWarehouse);
 		});
 
+		Button exportWarehouseButton = new Button("Export Warehouse Metadata");
+		exportWarehouseButton.setOnAction(e -> {
+			FileSaverIO.exportWarehouse(primaryStage, selectedWarehouse);
+		});
+
 		HBox topPaneControls = new HBox(10);
-		topPaneControls.getChildren().addAll(backButton, toggleFreight);
+
+		if(selectedWarehouse.getShipmentSize() == 0) {
+			topPaneControls.getChildren().addAll(backButton, toggleFreight);
+		}else {
+			topPaneControls.getChildren().addAll(backButton, toggleFreight, exportWarehouseButton);
+		}
 
 		VBox topPane = new VBox(10);
 		topPane.setPadding(new Insets(10));
@@ -142,7 +149,11 @@ public final class ShipmentScene {
 
 		Button deleteBtn = new Button("Delete");
 		deleteBtn.setMinWidth(60);
-		deleteBtn.setOnAction(e -> deleteShipmentsClicked(selectedWarehouse.getId()));
+		deleteBtn.setOnAction(e -> {
+			deleteShipmentsClicked(selectedWarehouse.getId());
+			Scene shipmentScene = createShipmentTable(primaryStage, selectedWarehouse);
+			primaryStage.setScene(shipmentScene);
+		});
 
 		HBox bottomPane = new HBox();
 		HBox.setHgrow(sIDTextField, Priority.ALWAYS);
@@ -196,7 +207,7 @@ public final class ShipmentScene {
 	 * Deletes selected Shipment(s)
 	 * @param warehouseID ID of warehouse to delete from
 	 */
-	private static void deleteShipmentsClicked(String warehouseID) {
+	private static void deleteShipmentsClicked (String warehouseID) {
 		ObservableList<Shipment> selectedShipments, shipmentItems;
 		shipmentItems = shipmentTable.getItems();
 		selectedShipments = shipmentTable.getSelectionModel().getSelectedItems();
@@ -249,8 +260,14 @@ public final class ShipmentScene {
 		}
 
 		if (fType != null && wUnit != null) {
-			Shipment nShipment = new Shipment.Builder().id(shipmentID).type(fType).weight(weight).weightUnit(wUnit)
-					.date(receiptDate).build();
+			Shipment nShipment = new Shipment
+					.Builder()
+					.id(shipmentID)
+					.type(fType)
+					.weight(weight)
+					.weightUnit(wUnit)
+					.date(receiptDate)
+					.build();
 			warehouseTracker.addShipment(warehouse, nShipment);
 
 			sMethodTextField.clear();
@@ -263,11 +280,4 @@ public final class ShipmentScene {
 		}
 
 	}
-
-
-
-	private Logger getL() {
-		return Logger.getAnonymousLogger();
-	}
-
 }

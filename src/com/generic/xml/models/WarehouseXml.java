@@ -7,7 +7,7 @@ import org.simpleframework.xml.Root;
 
 
 @Root(name = "Warehouse")
-public class Warehouse {
+public class WarehouseXml {
 	
 	@Attribute
 	String id;
@@ -16,7 +16,7 @@ public class Warehouse {
 	String name;
 	
 	@ElementList(inline = true, required = false)
-	List<Shipment> shipments;
+	List<ShipmentXml> shipments;
 	
 	public String getName() {
 		return name;
@@ -26,7 +26,7 @@ public class Warehouse {
 		return id;
 	}
 	
-	public List<Shipment> getShipments() {
+	public List<ShipmentXml> getShipments() {
 		return shipments;
 	}
 	

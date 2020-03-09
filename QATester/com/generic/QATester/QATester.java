@@ -12,7 +12,7 @@ import com.generic.models.FreightType;
 import com.generic.models.Shipment;
 import com.generic.models.Warehouse;
 import com.generic.tracker.WarehouseTracker;
-import com.generic.xml.models.Shipments;
+import com.generic.xml.models.ShipmentsXml;
 
 
 /**
@@ -144,9 +144,9 @@ public class QATester {
 	void testXmlParser() {
 		Serializer serializer = new Persister();
 		File sourceFile = new File ("C:\\Users\\swift\\Downloads\\example2.xml");
-		Shipments shipments = null;
+		ShipmentsXml shipments = null;
 		try {
-			shipments = serializer.read(Shipments.class, sourceFile);
+			shipments = serializer.read(ShipmentsXml.class, sourceFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

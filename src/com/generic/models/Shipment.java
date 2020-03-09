@@ -3,6 +3,7 @@ package com.generic.models;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import org.json.simple.JSONObject;
 
 /**
@@ -12,13 +13,13 @@ import org.json.simple.JSONObject;
 
 public class Shipment extends PersistentJson {
 
-	private static final String SHIPMENT_DETAIl_FORMAT_STRING = "Shipment_Id: %s\n  Freight_Type: %s\n  Receipt_Date: %s";
+	private static final String SHIPMENT_DETAIl_FORMAT_STRING = "Shipment_Id: %s\n  Freight_Type: %s\n  Weight: %.2f\n  Receipt_Date: %s\n  Weight_Unit: %s";
 
 	private FreightType freight; // Freight type
 	private WeightUnit weightUnit; // Shipment weight unit
 	private double weight; // Shipment weight
-	private long receiptDate; // Need to figure out the date format
-	
+	private long receiptDate; // Receipt Date
+
 	/**
 	 * Constructs a new Shipment
 	 * @param shipmentID shipment identification number
@@ -31,10 +32,10 @@ public class Shipment extends PersistentJson {
 		this.freight = freight;
 		this.weight = weight;
 		this.receiptDate = receiptDate;
-		this.weightUnit = (weightUnit != null) ? weightUnit : WeightUnit.LBS ;
+		this.weightUnit = weightUnit; // Handles .json Null fields?
 	}
-	
-	
+
+
 	public String getShipmentID() {
 		return id;
 	}
@@ -50,16 +51,16 @@ public class Shipment extends PersistentJson {
 	public long getReceiptDate() {
 		return receiptDate;
 	}
-		
+
 	public String getReceiptDateString() {
-		return milliToDate(receiptDate);
-	}
-	
-	public WeightUnit getWeightUnit() {
-		return weightUnit;
+		return (receiptDate == 0) ? "NA" : milliToDate(receiptDate);
 	}
 
-	
+	public WeightUnit getWeightUnit() {
+		return (weightUnit == null) ? WeightUnit.NA : weightUnit;
+	}
+
+
 	/**
 	 * Converts milliseconds to a date (STATIC)
 	 * @param milliDate date in milliseconds
@@ -70,10 +71,10 @@ public class Shipment extends PersistentJson {
 		Date result = new Date(milliDate);
 		return simple.format(result);
 	}
-	
+
 	@Override
 	public String toString() {
-		return String.format(SHIPMENT_DETAIl_FORMAT_STRING, id, weight, freight.toString().toLowerCase(), getReceiptDateString());
+		return String.format(SHIPMENT_DETAIl_FORMAT_STRING, id, freight.toString().toLowerCase(), weight, getReceiptDateString(), getWeightUnit().toString());
 	}
 
 	@Override
@@ -83,8 +84,9 @@ public class Shipment extends PersistentJson {
 		shipmentJSON.put("shipment_method", freight.toString().toLowerCase());
 		shipmentJSON.put("shipment_id", id);
 		shipmentJSON.put("weight", weight);
+		shipmentJSON.put("weight_unit", weightUnit.toString().toLowerCase());
 		shipmentJSON.put("receipt_date", receiptDate);
-		
+
 		return shipmentJSON;
 	}
 
@@ -94,34 +96,34 @@ public class Shipment extends PersistentJson {
 		private double weight;
 		private long receiptDate;
 		private WeightUnit weightUnit;
-		
+
 		public Builder() {}
-		
+
 		public Builder id(String shipmentID) {
 			this.shipmentID = shipmentID;
 			return this;
 		}
-		
+
 		public Builder type(FreightType type) {
 			this.freight = type;
 			return this;
 		}
-		
+
 		public Builder weight(double weight) {
 			this.weight = weight;
 			return this;
 		}
-		
+
 		public Builder date(long receiptDate) {
 			this.receiptDate = receiptDate;
 			return this;
 		}
-		
+
 		public Builder weightUnit(WeightUnit weightUnit) {
 			this.weightUnit = weightUnit;
 			return this;
 		}
-		
+
 		public Shipment build() {
 			return new Shipment(shipmentID, freight, weight, receiptDate, weightUnit);
 		}

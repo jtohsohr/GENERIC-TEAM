@@ -2,18 +2,19 @@ package com.generic.models;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 
 /**
  * This class creates a model of a Warehouse.
- * 
+ *
  * @author GENERIC TEAM
  */
 
 public class Warehouse extends PersistentJson {
-	
+
 	private static final String WAREHOUSE_DETAIL_FORMAT_STRING = "| WAREHOUSEID: %s| FREIGHT RECEIPT STATUS: %s| SHIPMENT AVALIABLE: %d|";
 
 	// TODO: Add warehouseName attribute to class
@@ -24,16 +25,15 @@ public class Warehouse extends PersistentJson {
 	/**
 	 * Construct a new warehouse
 	 * @param id warehouse identification number
-	 * @param receipt freightReceipt status
 	 */
 	public Warehouse(String warehouseID) {
 		this.shipments = new ArrayList<Shipment>();
 		this.id = warehouseID;
 		this.freightReceiptEnabled = true;
 	}
-	
+
 	/**
-	 * This constructor creates 
+	 * This constructor creates
 	 * @param warehouseName
 	 * @param warehouseID
 	 */
@@ -41,14 +41,14 @@ public class Warehouse extends PersistentJson {
 		this(warehouseID);
 		this.warehouseName = warehouseName;
 	}
-	
+
 	/**
 	 * Enables freight receipt
 	 */
 	public void enableFreight() {
 		freightReceiptEnabled = true;
 	}
-	
+
 	/**
 	 * Disables freight receipt
 	 */
@@ -63,27 +63,27 @@ public class Warehouse extends PersistentJson {
 	public boolean getFreightReceiptEnabled() {
 		return freightReceiptEnabled;
 	}
-	
+
 	public List<Shipment> getShipmentList() {
 		// how to return a const (immutable) ?
 		return shipments;
 	}
-		
+
 	/**
 	 * Gets the warehouseID
 	 * @return warehouseID
 	 */
 	public String getWarehouseID() {
-		return id;
+		return (id == null) ? "na" : id;
 	}
-	
+
 	// TODO: Create a getter method(getWarehouseName) for warehouseName attribute
 	/**
 	 * Gets warehouse name
 	 * @return the warehouseName
 	 */
 	public String getWarehouseName() {
-		return warehouseName;
+		return (warehouseName == null) ? "na" : warehouseName;
 	}
 
 	/**
@@ -101,14 +101,14 @@ public class Warehouse extends PersistentJson {
 	}
 
 	/**
-	 * Getter for number of shipments 
+	 * Getter for number of shipments
 	 * in the warehouse
 	 * @return
 	 */
 	public int getShipmentSize() {
 		return shipments.size();
 	}
-	
+
 	@Override
 	public String toString() {
 		String headerString = String.format(WAREHOUSE_DETAIL_FORMAT_STRING, id, (freightReceiptEnabled) ? "ENABLED" : "ENDED", getShipmentSize());
@@ -131,18 +131,18 @@ public class Warehouse extends PersistentJson {
 		}
 		return warehouseInfo.toString();
 	}
-	
+
 	/**
 	 * Checks if warehouse is empty.
 	 * Obviously so we don't loop through an
 	 * try to print an empty list.
-	 * @return true if shipments size 
+	 * @return true if shipments size
 	 * 		   is 0 and false if not
 	 */
 	public boolean isEmpty() {
 		return (shipments.size() == 0);
 	}
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public JSONObject toJSON() {
@@ -156,6 +156,6 @@ public class Warehouse extends PersistentJson {
 		}
 		warehouseInfo.put("Warehouse_" + id, shipmentList);
 		return warehouseInfo;
-		
+
 	}
 }

@@ -5,34 +5,47 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root(name = "Shipment")
-public class Shipment {
+public class ShipmentXml {
 
 	@Attribute(name = "type")
 	String type;
-	
+
 	@Attribute(name = "id")
 	String id;
-	
+
 	@Element(name = "ReceiptDate", required = false)
 	long receiptDate;
 
 	@Element
 	Weight Weight;
-		
+
 	public String getType() {
-		return type;
+		return type.toUpperCase();
 	}
-	
+
+	public String getId() {
+		return id;
+	}
+
+	@Override
 	public String toString() {
-		return String.format("ID: %s || Type: %s || Receipt Date: %s || Weight: %.2f || Unit: %s\n" , id, type, Long.toString(receiptDate), Weight.getWeight(), Weight.getUnit());
-		
+		return String.format("ID: %s || Type: %s || Receipt Date: %s || Weight: %.2f || Unit: %s\n"
+				, id, type, Long.toString(receiptDate), Weight.getWeight(), Weight.getUnit());
 	}
 
 	public long getReceiptDate() {
 		return receiptDate;
 	}
-	
-	
-	
+
+	public double getWeight() {
+		return Weight.getWeight();
+	}
+
+	public String getWeightUnit() {
+		return Weight.getUnit().toUpperCase();
+	}
+
+
+
 
 }
