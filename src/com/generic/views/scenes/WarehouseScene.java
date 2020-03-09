@@ -102,7 +102,15 @@ public final class WarehouseScene {
 		MenuItem exportMenu = new MenuItem("Export");
 
 		importMenu.setOnAction(e -> { chooseJsonFile(primaryStage); });
-		exportMenu.setOnAction(e -> { FileSaverIO.exportWarehouseContents(primaryStage); });
+		exportMenu.setOnAction(e -> {
+			if (!warehouseTracker.getWarehousesList().isEmpty()) {
+				FileSaverIO.exportWarehouseContents(primaryStage);
+			}else {
+				MessageBoxView.show("No warehouses avaliable to export", "Error");
+			}
+
+
+		});
 
 		fileMenu.getItems().addAll(importMenu, exportMenu);
 
