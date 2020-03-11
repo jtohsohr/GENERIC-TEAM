@@ -9,9 +9,9 @@ import org.json.simple.JSONObject;
 
 /**
  * This class creates a model of a Warehouse.
+ *
  * @author GENERIC TEAM
  */
-
 public class Warehouse extends PersistentJson {
 
 	private static final String WAREHOUSE_DETAIL_FORMAT_STRING = "| WAREHOUSEID: %s| FREIGHT RECEIPT STATUS: %s| SHIPMENT AVALIABLE: %d|";
@@ -142,10 +142,6 @@ public class Warehouse extends PersistentJson {
 		return (shipments.size() == 0);
 	}
 
-	/**
-	 * Creates a JsonOnject from this Warehouse instance
-	 * @return JSONObject the JsonObject created.
-	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public JSONObject toJSON() {
