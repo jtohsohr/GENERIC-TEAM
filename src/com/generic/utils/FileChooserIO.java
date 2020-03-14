@@ -21,7 +21,7 @@ public final class FileChooserIO extends Application {
 		FileChooser fileChooser = new FileChooser();
 		configureFileChooser(fileChooser);
 		File file = fileChooser.showOpenDialog(stage);
-		if (file != null) { openFile(file); }
+		openFile(file);
 	}
 
 	/**
