@@ -3,9 +3,9 @@ package com.generic.views;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
-import com.generic.tracker.WarehouseTracker;
+import com.generic.models.WarehouseFactory;
 import com.generic.utils.MessageBoxView;
-import com.generic.utils.Persistent;
+import com.generic.utils.Parsers;
 import com.generic.views.scenes.WarehouseScene;
 
 import javafx.application.Application;
@@ -76,7 +76,7 @@ public class MainStageView extends Application {
 
 	private void setUpSavedState(Stage primaryStage) {
 		try {
-			Persistent.parseJson("output/" + SAVED_STATE_FILE_STRING);
+			Parsers.parseJson("output/" + SAVED_STATE_FILE_STRING);
 			Scene warehouseScene = WarehouseScene.createWarehouseTable(primaryStage);
 			primaryStage.setScene(warehouseScene);
 		} catch (Exception e) {
@@ -86,11 +86,11 @@ public class MainStageView extends Application {
 	}
 
 	private void saveState(Stage primaryStage) {
-		WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+		WarehouseFactory warehouseTracker = WarehouseFactory.getInstance();
 		if (warehouseTracker.getWarehousesList().isEmpty()) {
 			primaryStage.close();
 		}else {
-			warehouseTracker = WarehouseTracker.getInstance();
+			warehouseTracker = WarehouseFactory.getInstance();
 			warehouseTracker.save(SAVED_STATE_FILE_STRING);
 			primaryStage.close();
 		}

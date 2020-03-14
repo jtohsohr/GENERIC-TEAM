@@ -9,5 +9,5 @@ public enum FreightType {
 	TRUCK,
 	SHIP,
 	RAIL,
-	NA;
+	NULL;
 }

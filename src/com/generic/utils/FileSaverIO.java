@@ -4,7 +4,7 @@ import java.io.File;
 
 import com.generic.models.Shipment;
 import com.generic.models.Warehouse;
-import com.generic.tracker.WarehouseTracker;
+import com.generic.models.WarehouseFactory;
 
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -64,7 +64,7 @@ public class FileSaverIO {
 	 */
 
 	public static void exportWarehouseContents(Stage stage) {
-		final WarehouseTracker wTracker = WarehouseTracker.getInstance();
+		final WarehouseFactory wTracker = WarehouseFactory.getInstance();
 		final DirectoryChooser directoryChooser =
 				new DirectoryChooser();
 		final File selectedDirectory =

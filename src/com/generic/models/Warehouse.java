@@ -73,7 +73,7 @@ public class Warehouse extends PersistentJson {
 	 * @return warehouseID
 	 */
 	public String getWarehouseID() {
-		return (id == null) ? "na" : id;
+		return id;
 	}
 
 	// TODO: Create a getter method(getWarehouseName) for warehouseName attribute
@@ -82,7 +82,7 @@ public class Warehouse extends PersistentJson {
 	 * @return the warehouseName
 	 */
 	public String getWarehouseName() {
-		return (warehouseName == null) ? "na" : warehouseName;
+		return warehouseName;
 	}
 
 	/**

@@ -1,10 +1,13 @@
 package com.generic.views.scenes;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.generic.models.FreightType;
 import com.generic.models.Shipment;
 import com.generic.models.Warehouse;
+import com.generic.models.WarehouseFactory;
 import com.generic.models.WeightUnit;
-import com.generic.tracker.WarehouseTracker;
 import com.generic.utils.FileSaverIO;
 import com.generic.utils.MessageBoxView;
 
@@ -34,7 +37,7 @@ import javafx.stage.Stage;
  */
 public final class ShipmentScene {
 
-	private static WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+	private static WarehouseFactory warehouseTracker = WarehouseFactory.getInstance();
 	private static TextField sIDTextField, sMethodTextField, sWeightTextField,
 	sReceiptDateTextField, sWeightUnitTextField; // textfields in the shipment class
 
@@ -234,7 +237,7 @@ public final class ShipmentScene {
 	 * Adds a Shipment to a given warehouse
 	 * @param warehouse the Warehouse to add shipment to
 	 */
-	private static void addShipmentClicked(Stage primaryStage, Warehouse warehouse) {
+	private static void  addShipmentClicked(Stage primaryStage, Warehouse warehouse) {
 		// Get the raw data and validate
 		// Pass the data into local variables
 		// Pass the local locals to the the builder to build object
@@ -274,17 +277,14 @@ public final class ShipmentScene {
 					"Error");
 		}
 
-		if (fType != null && wUnit != null) {
-			Shipment nShipment = new Shipment
-					.Builder()
-					.id(shipmentID)
-					.type(fType)
-					.weight(weight)
-					.weightUnit(wUnit)
-					.date(receiptDate)
-					.build();
-			warehouseTracker.addShipment(warehouse, nShipment);
+		Map<String, Object> textFieldInput = new HashMap<>();
+		textFieldInput.put("shipmentID", shipmentID);
+		textFieldInput.put("fType", fType);
+		textFieldInput.put("weightUnit", wUnit);
+		textFieldInput.put("weight", weight);
+		textFieldInput.put("receiptDate", receiptDate);
 
+		if (warehouseTracker.addShipment(warehouse.getId(), textFieldInput)) {
 			sMethodTextField.clear();
 			sWeightTextField.clear();
 			sWeightUnitTextField.clear();

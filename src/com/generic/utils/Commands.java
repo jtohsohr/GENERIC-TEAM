@@ -11,7 +11,7 @@ import java.util.Scanner;
 import com.generic.models.FreightType;
 import com.generic.models.PersistentJson;
 import com.generic.models.Shipment;
-import com.generic.tracker.WarehouseTracker;
+import com.generic.models.WarehouseFactory;
 
 public class Commands {
 	private static Commands command;
@@ -47,7 +47,7 @@ public class Commands {
 		// some annotations here to help users how to use commands
 		commandList.put("import", (arg -> {
 			try {
-				Persistent.parseJson(new File("resource/" + arg[0]).getAbsolutePath());
+				Parsers.parseJson(new File("resource/" + arg[0]).getAbsolutePath());
 				System.out.println("Sucessfully imported "+arg[0]);
 			} catch (Exception e) {
 				System.out.println("** System can not read the file!");
@@ -56,7 +56,7 @@ public class Commands {
 		}));
 
 		commandList.put("export", (arg -> {
-			WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+			WarehouseFactory warehouseTracker = WarehouseFactory.getInstance();
 			try {
 				String mWarehouseID = arg[0];
 				if (!warehouseTracker.warehouseExists(mWarehouseID)) {
@@ -74,7 +74,7 @@ public class Commands {
 		commandList.put("print", (arg -> {
 			String warehouseID;
 			try {
-				WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+				WarehouseFactory warehouseTracker = WarehouseFactory.getInstance();
 				warehouseID = arg[0];
 				warehouseTracker.printWarehouseDetails(warehouseID);
 			} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
@@ -83,7 +83,7 @@ public class Commands {
 		}));
 
 		commandList.put("printall", (arg -> {
-			WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+			WarehouseFactory warehouseTracker = WarehouseFactory.getInstance();
 			if (!warehouseTracker.isEmpty()) {
 				warehouseTracker.printAll();
 			} else {
@@ -93,7 +93,7 @@ public class Commands {
 
 		commandList.put("enablef", (arg -> {
 			String warehouseID1;
-			WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+			WarehouseFactory warehouseTracker = WarehouseFactory.getInstance();
 			try {
 				warehouseID1 = arg[0];
 				if (!warehouseTracker.isEmpty()) {
@@ -110,7 +110,7 @@ public class Commands {
 
 		commandList.put("disablef", (arg -> {
 			String warehouseID2;
-			WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+			WarehouseFactory warehouseTracker = WarehouseFactory.getInstance();
 			try {
 				warehouseID2 = arg[0];
 				if (!warehouseTracker.isEmpty()) {
@@ -130,7 +130,7 @@ public class Commands {
 		}));
 
 		commandList.put("add", (arg -> {
-			WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+			WarehouseFactory warehouseTracker = WarehouseFactory.getInstance();
 			try {
 				String mWarehouseID = arg[0];
 				if (!warehouseTracker.isEmpty()) {
@@ -156,7 +156,7 @@ public class Commands {
 
 		commandList.put("exportall", (arg -> {
 			try {
-				PersistentJson warehouseTracker = WarehouseTracker.getInstance();
+				PersistentJson warehouseTracker = WarehouseFactory.getInstance();
 				warehouseTracker.save(warehouseTracker.getId()+".json");
 
 				System.out.println("Sucessfully exported warehouse");
@@ -174,7 +174,7 @@ public class Commands {
 	 */
 	private boolean addShipmentOp(String warehouseID) {
 		Scanner sc = new Scanner(System.in);
-		WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+		WarehouseFactory warehouseTracker = WarehouseFactory.getInstance();
 		boolean added = false;
 		String option = "";
 

@@ -1,10 +1,8 @@
 package com.generic.models;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.json.simple.JSONObject;
+
+import com.generic.utils.DateUtil;
 
 /**
  * @author GENERIC TEAM
@@ -53,24 +51,13 @@ public class Shipment extends PersistentJson {
 	}
 
 	public String getReceiptDateString() {
-		return (receiptDate == 0) ? "NA" : milliToDate(receiptDate);
+		return DateUtil.milliToDate(receiptDate);
 	}
 
 	public WeightUnit getWeightUnit() {
-		return (weightUnit == null) ? WeightUnit.NA : weightUnit;
+		return weightUnit;
 	}
 
-
-	/**
-	 * Converts milliseconds to a date (STATIC)
-	 * @param milliDate date in milliseconds
-	 * @return date in simple format
-	 */
-	private static String milliToDate(long milliDate) {
-		DateFormat simple = new SimpleDateFormat("dd MMMMM yyyy HH:mm:ss");
-		Date result = new Date(milliDate);
-		return simple.format(result);
-	}
 
 	@Override
 	public String toString() {

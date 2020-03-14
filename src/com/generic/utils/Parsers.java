@@ -2,6 +2,8 @@ package com.generic.utils;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -9,11 +11,7 @@ import org.json.simple.parser.JSONParser;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
-import com.generic.models.FreightType;
-import com.generic.models.Shipment;
-import com.generic.models.Warehouse;
-import com.generic.models.WeightUnit;
-import com.generic.tracker.WarehouseTracker;
+import com.generic.models.WarehouseFactory;
 import com.generic.xml.models.ShipmentXml;
 import com.generic.xml.models.ShipmentsXml;
 import com.generic.xml.models.WarehouseXml;
@@ -22,9 +20,9 @@ import com.generic.xml.models.WarehouseXml;
  * Parses data from Json and Xml files
  * @author GENERIC TEAM
  */
-public class Persistent {
+public class Parsers {
 
-	private Persistent() {}
+	private Parsers() {}
 
 	/**
 	 * Reads a file that is in JSON format containing various shipment information.
@@ -63,19 +61,46 @@ public class Persistent {
 	 * @param shipmentObject shipment object in json
 	 */
 	private static void parseJsonContentsToObjects(JSONObject shipmentObject) {
-		WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+
+
+
+
+		WarehouseFactory warehouseTracker = WarehouseFactory.getInstance();
+
+
 		String warehouseID = (String) shipmentObject.get("warehouse_id");
 		String warehouseName = (String) shipmentObject.get("warehouse_name");
 
 		// create warehouse
-		Warehouse warehouse = new Warehouse(warehouseName,warehouseID);
+		//Warehouse warehouse = new Warehouse(warehouseName,warehouseID);
 
 		String fTypeString = (String) shipmentObject.get("shipment_method");
-		FreightType fTypeEnum = (fTypeString == null) ? FreightType.NA : FreightType.valueOf(fTypeString.toUpperCase());
+		//FreightType fTypeEnum = (fTypeString == null) ? FreightType.NA : FreightType.valueOf(fTypeString.toUpperCase());
 
 		String weightUnitString = (String)shipmentObject.get("weight_unit");
-		WeightUnit weightUnitEnum = (weightUnitString == null) ? WeightUnit.NA : WeightUnit.valueOf(weightUnitString.toUpperCase());
+		//WeightUnit weightUnitEnum = (weightUnitString == null) ? WeightUnit.NA : WeightUnit.valueOf(weightUnitString.toUpperCase());
 
+		Map<String, Object> parsedData = new HashMap<String, Object>();
+		parsedData.put("warehouseID", warehouseID);
+		parsedData.put("warehouseName", warehouseName);
+		parsedData.put("shipmentID", shipmentObject.get("shipment_id"));
+		parsedData.put("fTypeString", fTypeString);
+		parsedData.put("wUnitString", weightUnitString);
+		parsedData.put("weight", shipmentObject.get("weight"));
+		parsedData.put("receiptDate", shipmentObject.get("receipt_date"));
+
+		warehouseTracker.addParsedData(parsedData);
+
+
+
+
+		//Warehouse warehouse = new Warehouse(warehouseName,warehouseID);
+
+		//FreightType fTypeEnum = (fTypeString == null) ? FreightType.NA : FreightType.valueOf(fTypeString.toUpperCase());
+
+		//WeightUnit weightUnitEnum = (weightUnitString == null) ? WeightUnit.NA : WeightUnit.valueOf(weightUnitString.toUpperCase());
+
+		/*
 		// build a shipment
 		Shipment shipment = new Shipment.Builder()
 				.id((String) shipmentObject.get("shipment_id"))
@@ -87,6 +112,7 @@ public class Persistent {
 		warehouseTracker.addWarehouse(warehouse);
 		// add the shipment to the warehouse
 		warehouseTracker.addShipment(warehouseID, shipment);
+		 */
 	}
 
 	/**
@@ -111,27 +137,36 @@ public class Persistent {
 	 * @param warehouseXmlObject the xml warehouse object
 	 */
 	private static void parseXmlToWarehousePojo(WarehouseXml warehouseXmlObject) {
-		WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+
+
+		Map<String, Object> parsedData = new HashMap<String, Object>();
+
+
 		String warehouseID = warehouseXmlObject.getId();
 		String warehouseName = warehouseXmlObject.getName();
-		Warehouse mWarehouse = new Warehouse(warehouseName, warehouseID);
-		warehouseTracker.addWarehouse(mWarehouse);
+		//Warehouse mWarehouse = new Warehouse(warehouseName, warehouseID);
+		//warehouseTracker.addWarehouse(mWarehouse);
 
-		warehouseTracker.printAll();
+		parsedData.put("warehouseID", warehouseID);
+		parsedData.put("warehouseName", warehouseName);
+
+		//warehouseTracker.printAll();
 
 		if (!warehouseXmlObject.getShipments().isEmpty()) {
 			warehouseXmlObject.getShipments()
-			.forEach(shipmentXmlObject -> parseToXmlShipmentsPojo(warehouseID, shipmentXmlObject));
+			.forEach(shipmentXmlObject -> parseToXmlShipmentsPojo(parsedData, shipmentXmlObject));
 		}
 	}
 
 	/**
 	 * Parse the xml shipment object to  actual shipment object
-	 * @param warehouseID the warehouseID to add shipment to.
+	 * @param parsedData the warehouseID to add shipment to.
 	 * @param shipmentXmlObject the xml shipment object
 	 */
-	private static void parseToXmlShipmentsPojo(String warehouseID, ShipmentXml shipmentXmlObject) {
-		WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+	private static void parseToXmlShipmentsPojo(Map<String, Object> parsedData, ShipmentXml shipmentXmlObject) {
+		WarehouseFactory warehouseTracker = WarehouseFactory.getInstance();
+
+		/*
 		// build a shipment
 		Shipment shipment = new Shipment.Builder()
 				.id(shipmentXmlObject.getId())
@@ -139,7 +174,16 @@ public class Persistent {
 				.weight(shipmentXmlObject.getWeight())
 				.weightUnit(WeightUnit.valueOf(shipmentXmlObject.getWeightUnit()))
 				.date(shipmentXmlObject.getReceiptDate()).build();
-		warehouseTracker.addShipment(warehouseID, shipment);
+		warehouseTracker.addShipment(parsedData, shipment);
+		 */
+
+		parsedData.put("shipmentID", shipmentXmlObject.getId());
+		parsedData.put("fTypeString", shipmentXmlObject.getType());
+		parsedData.put("wUnitString", shipmentXmlObject.getWeightUnit());
+		parsedData.put("weight", shipmentXmlObject.getWeight());
+		parsedData.put("receiptDate", shipmentXmlObject.getReceiptDate());
+
+		warehouseTracker.addParsedData(parsedData);
 
 		warehouseTracker.printAll();
 

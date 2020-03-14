@@ -49,10 +49,10 @@ public final class FileChooserIO extends Application {
 	private void openFile(File file) throws Exception {
 		String extension = Files.getFileExtension(file.getName());
 		if (extension.equalsIgnoreCase("json")) {
-			Persistent.parseJsonFromFile(file);
+			Parsers.parseJsonFromFile(file);
 
 		}else if (extension.equalsIgnoreCase("xml")) {
-			Persistent.parseXmlFromFile(file);
+			Parsers.parseXmlFromFile(file);
 		}
 	}
 }

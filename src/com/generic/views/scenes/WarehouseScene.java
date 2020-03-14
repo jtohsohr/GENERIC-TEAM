@@ -1,7 +1,7 @@
 package com.generic.views.scenes;
 
 import com.generic.models.Warehouse;
-import com.generic.tracker.WarehouseTracker;
+import com.generic.models.WarehouseFactory;
 import com.generic.utils.FileChooserIO;
 import com.generic.utils.FileSaverIO;
 import com.generic.utils.MessageBoxView;
@@ -30,7 +30,7 @@ import javafx.stage.Stage;
 
 public final class WarehouseScene {
 
-	private static WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
+	private static WarehouseFactory warehouseFactory = WarehouseFactory.getInstance();
 	private static TextField wNameTextField;
 	private static TextField wIDTextField;
 	private static TextField wFreightStatus;
@@ -46,7 +46,7 @@ public final class WarehouseScene {
 
 		// Create Table
 		warehouseTable = new TableView<Warehouse>();
-		warehouseTable.setItems(warehouseTracker.getWarehousesList());
+		warehouseTable.setItems(warehouseFactory.getWarehousesList());
 		warehouseTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		warehouseTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		warehouseTable.refresh();
@@ -103,7 +103,7 @@ public final class WarehouseScene {
 
 		importMenu.setOnAction(e -> { chooseJsonFile(primaryStage); });
 		exportMenu.setOnAction(e -> {
-			if (!warehouseTracker.getWarehousesList().isEmpty()) {
+			if (!warehouseFactory.getWarehousesList().isEmpty()) {
 				FileSaverIO.exportWarehouseContents(primaryStage);
 			}else {
 				MessageBoxView.show("No warehouses avaliable to export", "Error");
@@ -169,7 +169,7 @@ public final class WarehouseScene {
 		ObservableList<Warehouse> selectedWarehouses, warehousesItems;
 		warehousesItems = warehouseTable.getItems();
 		selectedWarehouses = warehouseTable.getSelectionModel().getSelectedItems();
-		warehouseTracker.removeAllWarehouses(selectedWarehouses);
+		warehouseFactory.removeAllWarehouses(selectedWarehouses);
 		warehousesItems.removeAll(selectedWarehouses);
 	}
 
@@ -207,15 +207,13 @@ public final class WarehouseScene {
 						"Please enter a valid option for freight status, your input: " + wFreightStatus.getText() + " ",
 						"Error");
 			} else {
-				Warehouse nWarehouse = new Warehouse(warehouseName, warehouseID);
-				// Warehouse nWarehouse = new Warehouse(warehouseID);
-				boolean added = warehouseTracker.addWarehouse(nWarehouse);
+				boolean added = warehouseFactory.addWarehouse(warehouseName, warehouseID);
 				// If not a duplicate
 				if (added) {
 					// Freight Status is enabled by default, if option "D"
 					// disable freight
 					if (freightStatus == false) {
-						nWarehouse.disableFreight();
+						warehouseFactory.endFreight(warehouseID);
 					}
 
 					wIDTextField.clear();
