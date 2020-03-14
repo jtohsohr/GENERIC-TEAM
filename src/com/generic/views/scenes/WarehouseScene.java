@@ -109,6 +109,7 @@ public final class WarehouseScene {
 				MessageBoxView.show("No warehouses avaliable to export", "Error");
 			}
 
+
 		});
 
 		fileMenu.getItems().addAll(importMenu, exportMenu);
