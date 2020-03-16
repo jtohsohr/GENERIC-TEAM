@@ -32,7 +32,7 @@ import javafx.stage.Stage;
 
 /**
  * Creates a shipment scene
- * @author GENETIC TEAM
+ * @author GENERIC TEAM
  *
  */
 public final class ShipmentScene {
