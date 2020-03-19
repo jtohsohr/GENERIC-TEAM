@@ -1,7 +1,8 @@
-package com.generic.utils;
+package com.generic.views.utils;
 
 import java.io.File;
 
+import com.generic.utils.Parsers;
 import com.google.common.io.Files;
 
 import javafx.application.Application;
@@ -49,7 +50,7 @@ public final class FileChooserIO extends Application {
 	private void openFile(File file) throws Exception {
 		String extension = Files.getFileExtension(file.getName());
 		if (extension.equalsIgnoreCase("json")) {
-			Parsers.parseJsonFromFile(file);
+			Parsers.parseJson(file.getAbsolutePath());
 
 		}else if (extension.equalsIgnoreCase("xml")) {
 			Parsers.parseXmlFromFile(file);
