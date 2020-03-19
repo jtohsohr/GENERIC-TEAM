@@ -41,22 +41,6 @@ public class Parsers {
 	}
 
 	/**
-	 * Reads a file that is in JSON format containing
-	 * various shipment information.
-	 * @param JSON file object.
-	 */
-	@SuppressWarnings("unchecked")
-	public static void parseJsonFromFile(File file) throws Exception {
-		JSONParser jsonParser = new JSONParser();
-		FileReader reader = new FileReader(file);
-		JSONObject jsonFile = (JSONObject) jsonParser.parse(reader);
-		JSONArray warehouseContents = (JSONArray) jsonFile.get("warehouse_contents");
-		warehouseContents.forEach(shipmentObject -> parseJsonContentsToObjects((JSONObject) shipmentObject));
-
-		reader.close();
-	}
-
-	/**
 	 * Parses and assigns shipment object for each warehouse
 	 * @param shipmentObject shipment object in json
 	 */
