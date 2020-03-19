@@ -8,14 +8,15 @@ import com.generic.models.Shipment;
 import com.generic.models.Warehouse;
 import com.generic.models.WarehouseFactory;
 import com.generic.models.WeightUnit;
-import com.generic.utils.FileSaverIO;
-import com.generic.utils.MessageBoxView;
+import com.generic.views.utils.FileSaverIO;
+import com.generic.views.utils.MessageBoxView;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -38,8 +39,12 @@ import javafx.stage.Stage;
 public final class ShipmentScene {
 
 	private static WarehouseFactory warehouseTracker = WarehouseFactory.getInstance();
-	private static TextField sIDTextField, sMethodTextField, sWeightTextField,
-	sReceiptDateTextField, sWeightUnitTextField; // textfields in the shipment class
+	private static TextField sIDTextField, sWeightTextField,
+	sReceiptDateTextField; // textfields in the shipment class
+
+	private static ComboBox<FreightType> shipmentOptions;
+
+	private static ComboBox<WeightUnit> unitOptions;
 
 	private static TableView<Shipment> shipmentTable; // holds the shipment table
 
@@ -135,10 +140,19 @@ public final class ShipmentScene {
 		sIDTextField.setMinWidth(80);
 		Region spacer1 = new Region();
 
+		/*
 		sMethodTextField = new TextField();
 		sMethodTextField.setPromptText("Shipment Method");
 		sMethodTextField.setMinWidth(180);
 		Region spacer2 = new Region();
+		 */
+
+		shipmentOptions = new ComboBox<>();
+		shipmentOptions.getItems().addAll(FreightType.values());
+		shipmentOptions.setPromptText("Shipment Method");
+		shipmentOptions.setMinWidth(180);
+		Region spacer2 = new Region();
+
 
 		sWeightTextField = new TextField();
 		sWeightTextField.setPromptText("Weight");
@@ -150,9 +164,17 @@ public final class ShipmentScene {
 		sReceiptDateTextField.setMinWidth(180);
 		Region spacer4 = new Region();
 
+		/*
 		sWeightUnitTextField = new TextField();
 		sWeightUnitTextField.setPromptText("Weight Unit");
 		sWeightUnitTextField.setMinWidth(60);
+		Region spacer5 = new Region();
+		 */
+
+		unitOptions = new ComboBox<>();
+		unitOptions.getItems().addAll(WeightUnit.values());
+		unitOptions.setPromptText("Weight Unit");
+		unitOptions.setMinWidth(60);
 		Region spacer5 = new Region();
 
 		// Buttons
@@ -172,9 +194,9 @@ public final class ShipmentScene {
 
 		HBox bottomPane = new HBox();
 		HBox.setHgrow(sIDTextField, Priority.ALWAYS);
-		HBox.setHgrow(sMethodTextField, Priority.ALWAYS);
+		HBox.setHgrow(shipmentOptions, Priority.ALWAYS);
 		HBox.setHgrow(sWeightTextField, Priority.ALWAYS);
-		HBox.setHgrow(sWeightUnitTextField, Priority.ALWAYS);
+		HBox.setHgrow(unitOptions, Priority.ALWAYS);
 		HBox.setHgrow(sReceiptDateTextField, Priority.ALWAYS);
 
 		// Spacers for layout consistency when shipment adding controls
@@ -190,7 +212,7 @@ public final class ShipmentScene {
 		bottomPane.setSpacing(8);
 
 		if (warehouseTracker.freightIsEnabled(selectedWarehouse.getId())) {
-			bottomPane.getChildren().addAll(sIDTextField, sMethodTextField, sWeightTextField, sWeightUnitTextField,
+			bottomPane.getChildren().addAll(sIDTextField, shipmentOptions, sWeightTextField, unitOptions,
 					sReceiptDateTextField, addBtn, deleteBtn);
 		} else {
 			bottomPane.getChildren().addAll(spacer1, spacer2, spacer3, spacer4, spacer5, spacer6, deleteBtn);
@@ -248,19 +270,10 @@ public final class ShipmentScene {
 		double weight = 0;
 		long receiptDate = 0;
 
-		try {
-			fType = FreightType.valueOf(sMethodTextField.getText().toUpperCase());
-		} catch (IllegalArgumentException | NullPointerException e) {
-			MessageBoxView.show("Please enter a valid option for freight type (i.e TRUCK, AIR, SHIP, RAIL): "
-					+ sMethodTextField.getText() + " ", "Error");
-		}
 
-		try {
-			wUnit = WeightUnit.valueOf(sWeightUnitTextField.getText().toUpperCase());
-		} catch (IllegalArgumentException | NullPointerException e) {
-			MessageBoxView.show("Please enter a valid option for weight unit (i.e KG, LBS): "
-					+ sWeightUnitTextField.getText() + " ", "Error");
-		}
+		fType = shipmentOptions.getSelectionModel().getSelectedItem();
+
+		wUnit = unitOptions.getSelectionModel().getSelectedItem();
 
 		try {
 			weight = Double.parseDouble(sWeightTextField.getText());
@@ -285,9 +298,9 @@ public final class ShipmentScene {
 		textFieldInput.put("receiptDate", receiptDate);
 
 		if (warehouseTracker.addShipment(warehouse.getId(), textFieldInput)) {
-			sMethodTextField.clear();
+			shipmentOptions.setValue(null);
 			sWeightTextField.clear();
-			sWeightUnitTextField.clear();
+			unitOptions.setValue(null);
 			sReceiptDateTextField.clear();
 
 			Scene shipmentScene = createShipmentTable(primaryStage, warehouse);
