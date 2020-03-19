@@ -1,12 +1,12 @@
-package com.generic.views;
+package com.generic.views.main;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import com.generic.models.WarehouseFactory;
-import com.generic.utils.MessageBoxView;
 import com.generic.utils.Parsers;
 import com.generic.views.scenes.WarehouseScene;
+import com.generic.views.utils.MessageBoxView;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -38,32 +38,11 @@ public class MainStageView extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		// TODO: Populate the table here,
-		// checking if we have a file saved in output folder,
-		// if we do, populate our table by parsing data
-		// if not, create an empty table
-		/*
-		Warehouse testWarehouse = new Warehouse("15566");
-		Warehouse testWarehouse2 = new Warehouse("12312");
-		Shipment testShipment = new Shipment.Builder().id("asad1").type(FreightType.TRUCK).weight(34.0)
-				.date(10000021213L).build();
-		Shipment testShipment2 = new Shipment.Builder().id("qasd2").type(FreightType.TRUCK).weight(312.0)
-				.date(100304121213L).build();
-
-		warehouseTracker.addWarehouse(testWarehouse);
-		warehouseTracker.addWarehouse(testWarehouse2);
-		warehouseTracker.addShipment(testWarehouse, testShipment);
-		warehouseTracker.addShipment(testWarehouse2, testShipment2);
-		 */
-
-
-		//shipmentScene = createShipmentTable(testWarehouse);
 		Scene warehouseScene = WarehouseScene.createWarehouseTable(primaryStage);
 		// Set the Scene
 		primaryStage.setMinWidth(SCREEN_WIDTH / 200);
 		primaryStage.setMinHeight(SCREEN_HEIGHT / 200);
-		// primaryStage.setScene(shipmentScene);
-		primaryStage.setResizable(false);
+		primaryStage.setResizable(true);
 		primaryStage.setScene(warehouseScene);
 		primaryStage.setTitle("G.T TRACKER");
 		primaryStage.show();
