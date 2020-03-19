@@ -224,7 +224,6 @@ public final class WarehouseFactory extends PersistentJson {
 
 	/**
 	 * Gets the list of warehouses, needed by GUI to populate the TableView
-	 *
 	 * @return ObservableList of warehouses
 	 */
 	public ObservableList<Warehouse> getWarehousesList() {
@@ -246,17 +245,6 @@ public final class WarehouseFactory extends PersistentJson {
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject toJSON() {
-		// FOR CORRECT JSON FORMAT:
-		/*
-		 * JSONObject warehouseTracker = new JSONObject(); JSONArray warehouseJsonList =
-		 * new JSONArray(); JSONObject warehouseContents;
-		 *
-		 * List<Warehouse> warehousesList = new ArrayList<>(warehouses.values());
-		 *
-		 * for (Warehouse warehouse : warehousesList) { warehouseContents =
-		 * warehouse.toJSON(); warehouseJsonList.add(warehouseContents); }
-		 * warehouseTracker.put(id, warehouseJsonList); return warehouseTracker;
-		 */
 
 		// FOR REPLICATING ORIGINAL FILE FORMAT:
 		JSONObject warehouseTracker = new JSONObject();
