@@ -2,9 +2,9 @@ package com.generic.views.scenes;
 
 import com.generic.models.Warehouse;
 import com.generic.models.WarehouseFactory;
-import com.generic.utils.FileChooserIO;
-import com.generic.utils.FileSaverIO;
-import com.generic.utils.MessageBoxView;
+import com.generic.views.utils.FileChooserIO;
+import com.generic.views.utils.FileSaverIO;
+import com.generic.views.utils.MessageBoxView;
 
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
