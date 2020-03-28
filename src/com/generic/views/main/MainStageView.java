@@ -2,6 +2,7 @@ package com.generic.views.main;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.File;
 
 import com.generic.models.WarehouseFactory;
 import com.generic.utils.Parsers;
@@ -10,6 +11,7 @@ import com.generic.views.utils.MessageBoxView;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -39,6 +41,7 @@ public class MainStageView extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		Scene warehouseScene = WarehouseScene.createWarehouseTable(primaryStage);
+
 		// Set the Scene
 		primaryStage.setMinWidth(SCREEN_WIDTH / 200);
 		primaryStage.setMinHeight(SCREEN_HEIGHT / 200);
@@ -46,6 +49,12 @@ public class MainStageView extends Application {
 		primaryStage.setScene(warehouseScene);
 		primaryStage.setTitle("G.T TRACKER");
 		primaryStage.show();
+
+		// Load and add Logo
+		File file = new File("resource/logo.png");
+		String absolutePath = file.getAbsolutePath();
+		Image image = new Image("file:///" + absolutePath);
+		primaryStage.getIcons().add(image);
 
 		setUpSavedState(primaryStage);
 
