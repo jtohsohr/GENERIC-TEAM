@@ -140,19 +140,11 @@ public final class ShipmentScene {
 		sIDTextField.setMinWidth(80);
 		Region spacer1 = new Region();
 
-		/*
-		sMethodTextField = new TextField();
-		sMethodTextField.setPromptText("Shipment Method");
-		sMethodTextField.setMinWidth(180);
-		Region spacer2 = new Region();
-		 */
-
 		shipmentOptions = new ComboBox<>();
 		shipmentOptions.getItems().addAll(FreightType.values());
 		shipmentOptions.setPromptText("Shipment Method");
 		shipmentOptions.setMinWidth(180);
 		Region spacer2 = new Region();
-
 
 		sWeightTextField = new TextField();
 		sWeightTextField.setPromptText("Weight");
@@ -163,13 +155,6 @@ public final class ShipmentScene {
 		sReceiptDateTextField.setPromptText("Receipt Date");
 		sReceiptDateTextField.setMinWidth(180);
 		Region spacer4 = new Region();
-
-		/*
-		sWeightUnitTextField = new TextField();
-		sWeightUnitTextField.setPromptText("Weight Unit");
-		sWeightUnitTextField.setMinWidth(60);
-		Region spacer5 = new Region();
-		 */
 
 		unitOptions = new ComboBox<>();
 		unitOptions.getItems().addAll(WeightUnit.values());
