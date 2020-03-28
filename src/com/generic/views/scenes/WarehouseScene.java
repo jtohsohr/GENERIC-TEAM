@@ -1,5 +1,6 @@
 package com.generic.views.scenes;
 
+import com.generic.models.FreightStatus;
 import com.generic.models.Warehouse;
 import com.generic.models.WarehouseFactory;
 import com.generic.views.utils.FileChooserIO;
@@ -11,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -33,7 +35,7 @@ public final class WarehouseScene {
 	private static WarehouseFactory warehouseFactory = WarehouseFactory.getInstance();
 	private static TextField wNameTextField;
 	private static TextField wIDTextField;
-	private static TextField wFreightStatus;
+	private static ComboBox<FreightStatus> wFreightStatus;
 	public static TableView<Warehouse> warehouseTable;
 
 	/**
@@ -108,8 +110,6 @@ public final class WarehouseScene {
 			}else {
 				MessageBoxView.show("No warehouses avaliable to export", "Error");
 			}
-
-
 		});
 
 		fileMenu.getItems().addAll(importMenu, exportMenu);
@@ -129,8 +129,9 @@ public final class WarehouseScene {
 		wIDTextField.setPromptText("ID");
 		wIDTextField.setMinWidth(100);
 
-		wFreightStatus = new TextField();
-		wFreightStatus.setPromptText("E(Enable Freight Receipt)/D(Disable Freight Receipt)");
+		wFreightStatus = new ComboBox<>();
+		wFreightStatus.getItems().addAll(FreightStatus.values());
+		wFreightStatus.setPromptText("Freight Receipt Status");
 		wFreightStatus.setMinWidth(400);
 
 		// Buttons
@@ -192,22 +193,25 @@ public final class WarehouseScene {
 					"Error");
 		}
 
-		String wFreightStatusString = wFreightStatus.getText().toUpperCase();
+		String wFreightStatusString = null;
+
+		try {
+			wFreightStatusString = wFreightStatus.getSelectionModel().getSelectedItem().toString();
+		} catch (NullPointerException e) {
+			MessageBoxView.show("Please select a Freight Receipt Status", "Error");
+		}
 
 		// Continue to create Warehouse object and add necessary attributes if
 		// warehouseID is valid
-		if ((intCheck > -1)) {
-			if (wFreightStatusString.compareTo("E") == 0) {
-				freightStatus = true;
-			} else if (wFreightStatusString.compareTo("D") == 0) {
-				freightStatus = false;
-			}
 
-			if (wFreightStatusString.compareTo("E") != 0 && wFreightStatusString.compareTo("D") != 0) {
-				MessageBoxView.show(
-						"Please enter a valid option for freight status, your input: " + wFreightStatus.getText() + " ",
-						"Error");
-			} else {
+		if (wFreightStatusString != null) {
+			if ((intCheck > -1)) {
+				if (wFreightStatusString.startsWith("E")) {
+					freightStatus = true;
+				} else if (wFreightStatusString.startsWith("D")) {
+					freightStatus = false;
+				}
+
 				boolean added = warehouseFactory.addWarehouse(warehouseName, warehouseID);
 				// If not a duplicate
 				if (added) {
@@ -219,7 +223,7 @@ public final class WarehouseScene {
 
 					wIDTextField.clear();
 					wNameTextField.clear();
-					wFreightStatus.clear();
+					wFreightStatus.setValue(null);
 
 					Scene shipmentScene = createWarehouseTable(primaryStage);
 					primaryStage.setScene(shipmentScene);
@@ -227,11 +231,14 @@ public final class WarehouseScene {
 					MessageBoxView.show("Warehouse with ID: " + wIDTextField.getText() + " already exists",
 							"Error: Duplicate Warehouse");
 				}
+
+			} else {
+				MessageBoxView.show("Please enter a positive integer value for warehouseID(i.e 213, 31, 6): "
+						+ wIDTextField.getText() + " ", "Error");
 			}
-		} else {
-			MessageBoxView.show("Please enter a positive integer value for warehouseID(i.e 213, 31, 6): "
-					+ wIDTextField.getText() + " ", "Error");
 		}
+
+
 
 	}
 
