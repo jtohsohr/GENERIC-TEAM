@@ -16,14 +16,11 @@ import javafx.stage.Stage;
 
 /**
  * This class handles everything concerning the User Interface
- *
  * @author GENERIC TEAM
  *
  */
 
 public class MainStageView extends Application {
-
-	//public static WarehouseTracker warehouseTracker = WarehouseTracker.getInstance();
 
 	private final static Dimension SCREEN_DIMENSION = Toolkit.getDefaultToolkit().getScreenSize();
 
