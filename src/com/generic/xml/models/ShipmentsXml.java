@@ -10,7 +10,6 @@ import org.simpleframework.xml.Root;
  * @author GENERIC TEAM
  *
  */
-// Can also child elements be inner classes?
 @Root
 public class ShipmentsXml {
 	@ElementList(inline = true, name = "Warehouse")
