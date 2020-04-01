@@ -76,7 +76,7 @@ public class Parsers {
 	public static void parseXmlFromFile(File file) throws Exception {
 		Serializer serializer = new Persister();
 		ShipmentsXml shipments = null;
-		// Change classes names?
+
 		shipments = serializer.read(ShipmentsXml.class, file);
 
 		if (shipments != null) {
