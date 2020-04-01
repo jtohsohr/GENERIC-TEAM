@@ -1,6 +1,7 @@
 package com.generic.main;
 
 import java.util.List;
+
 import com.generic.utils.Commands;
 
 
@@ -10,10 +11,11 @@ import com.generic.utils.Commands;
  * @author GENERIC TEAM
  *
  */
+@Deprecated
 public class Main {
 
 	public static Commands cmd = Commands.getInstance();
-	
+
 
 	public static void welcome() {
 		System.out.println("Available commands:");
@@ -24,7 +26,7 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		
+
 		/**
 		welcome();
 
@@ -36,7 +38,7 @@ public class Main {
 				break;
 
 			String[] arg = in.nextLine().split(" ");
-			
+
 			String command = arg[0].toLowerCase();
 			String[] arguments = Arrays.copyOfRange(arg, 1, arg.length);
 
@@ -50,12 +52,12 @@ public class Main {
 				System.out.println("** Invalid command!");
 			}
 		} // End of while loop
-		
+
 		in.close();
-		
+
 		System.out.println("Goodbye!");
-		
-		**/
+
+		 **/
 	} // End of Main
 
 }

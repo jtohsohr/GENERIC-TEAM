@@ -13,6 +13,7 @@ import com.generic.models.PersistentJson;
 import com.generic.models.Shipment;
 import com.generic.models.WarehouseFactory;
 
+@Deprecated
 public class Commands {
 	private static Commands command;
 
@@ -172,6 +173,7 @@ public class Commands {
 	 * @param warehouseID
 	 * @return
 	 */
+	@Deprecated
 	private boolean addShipmentOp(String warehouseID) {
 		Scanner sc = new Scanner(System.in);
 		WarehouseFactory warehouseTracker = WarehouseFactory.getInstance();
