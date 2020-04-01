@@ -18,12 +18,8 @@ import com.generic.models.WeightUnit;
 
 /**
  * A class to run unit tests against shipment operations
- * PLEASE NOTE THAT THESE TESTS ARE DESIGNED TO BE RUN
- * BY UNITS(METHODS NOT AS A WHOLE CLASS) DUE TO THE SINGLETON DESIGN PATTERN.
  * @author GENERIC TEAM
- *
  */
-
 class ShipmentOperationsTest {
 
 	@Test
@@ -44,9 +40,6 @@ class ShipmentOperationsTest {
 		assertFalse(result);
 
 		warehouseFactory.deleteAllWarehouses();
-
-
-
 	}
 
 	@Test
@@ -90,9 +83,6 @@ class ShipmentOperationsTest {
 		assertTrue(result);
 
 		warehouseFactory.deleteAllWarehouses();
-
-
-
 	}
 
 	@Test
@@ -132,7 +122,6 @@ class ShipmentOperationsTest {
 		shipments.add(shipment2);
 		warehouseFactory.removeAllShipments("1212", shipments);
 		int shipmentSize2 = warehouseFactory.getWarehouseShipmentsSize("1212");
-
 
 		assertTrue(result1);
 		assertEquals(1, shipmentSize);
