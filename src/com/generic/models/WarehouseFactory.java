@@ -318,4 +318,11 @@ public final class WarehouseFactory extends PersistentJson {
 		return false;
 	}
 
+	/**
+	 * Deletes all warehouses for testing purposes
+	 */
+	public void deleteAllWarehouses() {
+		warehouses.clear();
+	}
+
 }
