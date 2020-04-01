@@ -13,7 +13,7 @@ import org.simpleframework.xml.Root;
 @Root(name = "Shipment")
 public class ShipmentXml {
 
-	@Attribute(name = "type")
+	@Attribute(name = "type", required = false)
 	String type;
 
 	@Attribute(name = "id")
@@ -22,7 +22,7 @@ public class ShipmentXml {
 	@Element(name = "ReceiptDate", required = false)
 	long receiptDate;
 
-	@Element
+	@Element(name = "Weight", required = false)
 	Weight Weight;
 
 	public String getType() {
