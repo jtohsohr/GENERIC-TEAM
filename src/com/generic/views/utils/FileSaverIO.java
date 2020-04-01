@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 /**
  * Opens a directory chooser(file explorer) to choose
  * the directory a file will be saved.
- * @author Seyi Ola
+ * @author GENERIC TEAM
  *
  */
 public class FileSaverIO {
