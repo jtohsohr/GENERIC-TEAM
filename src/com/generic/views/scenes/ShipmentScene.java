@@ -184,8 +184,8 @@ public final class ShipmentScene {
 		HBox.setHgrow(unitOptions, Priority.ALWAYS);
 		HBox.setHgrow(sReceiptDateTextField, Priority.ALWAYS);
 
-		// Spacers for layout consistency when shipment adding controls
-		// not available
+		// Spacers for layout consistency when
+		// shipment adding controls are not available
 		HBox.setHgrow(spacer1, Priority.ALWAYS);
 		HBox.setHgrow(spacer2, Priority.ALWAYS);
 		HBox.setHgrow(spacer3, Priority.ALWAYS);
