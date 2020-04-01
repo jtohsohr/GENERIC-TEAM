@@ -30,6 +30,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+/**
+ * Creates a Warehouse Scene
+ * @author GENERIC TEAM
+ */
+
 public final class WarehouseScene {
 
 	private static WarehouseFactory warehouseFactory = WarehouseFactory.getInstance();
@@ -237,9 +242,6 @@ public final class WarehouseScene {
 						+ wIDTextField.getText() + " ", "Error");
 			}
 		}
-
-
-
 	}
 
 	/**
@@ -249,7 +251,6 @@ public final class WarehouseScene {
 		try {
 			new FileChooserIO().start(new Stage());
 		} catch (Exception e) {
-			e.printStackTrace();
 			MessageBoxView.show("File corrupted", "Error reading file");
 		}
 		Scene warehouseScene = createWarehouseTable(primaryStage);
