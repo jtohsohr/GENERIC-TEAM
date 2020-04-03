@@ -47,7 +47,7 @@ class ExportOperationsTest {
 		assertTrue(singleWarehouseFile.exists());
 		assertTrue(allWarehousesFile.exists());
 
-		// delete the files as we have not use
+		// delete the files as we have no use
 		// for them anymore
 		singleWarehouseFile.delete();
 		allWarehousesFile.delete();
