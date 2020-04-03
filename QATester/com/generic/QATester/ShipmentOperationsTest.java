@@ -43,7 +43,7 @@ class ShipmentOperationsTest {
 	}
 
 	@Test
-	public void addShipmentToAnExistentWarehouse() {
+	public void addShipmentToAnExistingWarehouse() {
 
 		WarehouseFactory warehouseFactory = WarehouseFactory.getInstance();
 		Warehouse warehouse = new Warehouse("W120", "12121");
